@@ -28,15 +28,13 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int delitedIndex;
         for (int i = 0; i < numberOfResumes; i++) {
             if (storage[i].uuid == uuid) {
-                delitedIndex = i;
                 numberOfResumes--;
-                for(int j=delitedIndex;j<numberOfResumes; j++){
-                    storage[j]=storage[j+1];
+                for (int j = i; j < numberOfResumes; j++) {
+                    storage[j] = storage[j + 1];
                 }
-                storage[numberOfResumes]=null;
+                storage[numberOfResumes] = null;
                 break;
             }
         }
