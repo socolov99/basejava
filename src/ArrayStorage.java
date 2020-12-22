@@ -28,26 +28,17 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Resume[] newStorage = new Resume[10000];
-        int deletedIndex = -1;
+        int delitedIndex;
         for (int i = 0; i < numberOfResumes; i++) {
             if (storage[i].uuid == uuid) {
-                storage[i] = null;
-                deletedIndex = i;
+                delitedIndex = i;
+                numberOfResumes--;
+                for(int j=delitedIndex;j<numberOfResumes; j++){
+                    storage[j]=storage[j+1];
+                }
+                storage[numberOfResumes]=null;
                 break;
             }
-        }
-        if (deletedIndex != -1) {
-            for (int i = 0; i < deletedIndex; i++) {
-                newStorage[i] = storage[i];
-            }
-            for (int i = deletedIndex; i < numberOfResumes - 1; i++) {
-                newStorage[i] = storage[i + 1];
-            }
-            numberOfResumes--;
-            storage = newStorage;
-        } else {
-            System.out.println("uuid \"" + uuid + "\" wasn't found");
         }
     }
 
