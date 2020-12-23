@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private final int STORAGE_CAPACITY = 5;
-    private Resume[] storage = new Resume[STORAGE_CAPACITY];
+    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
     private int numberOfResume = 0;
 
     //return the resume with uuid if it exists in storage (else return null)
