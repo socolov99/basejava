@@ -10,77 +10,76 @@ import java.util.Arrays;
 public class ArrayStorage {
     private final int STORAGE_CAPACITY = 5;
     private Resume[] storage = new Resume[STORAGE_CAPACITY];
-    private int numberOfRes = 0;
+    private int numberOfResume = 0;
 
-    //check if resume with uuid exists in storage
-    private boolean checkResumePresent(Resume r, String uuid) {
-        return r.getUuid() == uuid;
+    //return the resume with uuid if it exists in storage (else return null)
+    private Resume findEqualResume(String uuid) {
+        for (int i = 0; i < numberOfResume; i++) {
+            if (storage[i].equals(new Resume(uuid))) {
+                return storage[i];
+            }
+        }
+        return null;
     }
 
     //clear the storage
     public void clear() {
-        numberOfRes = 0;
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, numberOfResume - 1, null);
+        numberOfResume = 0;
     }
 
     //add new resume if it doesn't exist in storage and if storage is not full
-    public void save(Resume r) {
-        for (int i = 0; i < numberOfRes; i++) {
-            if (checkResumePresent(storage[i], r.getUuid())) {
-                System.out.println("ERROR: \"" + r.getUuid() + "\" already exists");
-                return;
-            }
-        }
-        if (numberOfRes == STORAGE_CAPACITY) {
+    public void save(Resume resume) {
+        if (findEqualResume(resume.getUuid()) != null) {
+            System.out.println("ERROR: \"" + resume.getUuid() + "\" already exists");
+        } else if (numberOfResume == STORAGE_CAPACITY) {
             System.out.println("ERROR: storage is full");
         } else {
-            storage[numberOfRes] = r;
-            numberOfRes++;
+            storage[numberOfResume] = resume;
+            numberOfResume++;
         }
     }
 
     //rewrite the resume if it exists in storage
-    public void update(Resume r) {
-        for (int i = 0; i < numberOfRes; i++) {
-            if (checkResumePresent(storage[i], r.getUuid())) {
-                storage[numberOfRes] = r;
-                return;
-            }
+    public void update(Resume resume) {
+        Resume updatingResume = findEqualResume(resume.getUuid());
+        if (updatingResume != null) {
+            updatingResume = resume;
+        } else {
+            System.out.println("ERROR: \"" + resume.getUuid() + "\" wasn't found");
         }
-        System.out.println("ERROR: \"" + r.getUuid() + "\" wasn't found");
     }
 
-    //return the resume if it exists in storage
+    //return the resume if it exists in storage (else return null)
     public Resume get(String uuid) {
-        for (int i = 0; i < numberOfRes; i++) {
-            if (checkResumePresent(storage[i], uuid)) {
-                return storage[i];
-            }
+        Resume gettingResum = findEqualResume(uuid);
+        if (gettingResum != null) {
+            return gettingResum;
+        } else {
+            System.out.println("ERROR: \"" + uuid + "\" wasn't found");
+            return null;
         }
-        System.out.println("ERROR: \"" + uuid + "\" wasn't found");
-        return null;
     }
 
     //delete the resume if it exists in storage
     public void delete(String uuid) {
-        for (int i = 0; i < numberOfRes; i++) {
-            if (checkResumePresent(storage[i], uuid)) {
-                storage[i] = storage[numberOfRes - 1];
-                storage[numberOfRes - 1] = null;
-                numberOfRes--;
-                return;
-            }
+        Resume deletingResume = findEqualResume(uuid);
+        if (deletingResume != null) {
+            deletingResume.setUuid(storage[numberOfResume - 1].getUuid());
+            storage[numberOfResume - 1] = null;
+            numberOfResume--;
+        } else {
+            System.out.println("ERROR: \"" + uuid + "\" wasn't found");
         }
-        System.out.println("ERROR: \"" + uuid + "\" wasn't found");
     }
 
     //return array of resumes
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, numberOfRes);
+        return Arrays.copyOf(storage, numberOfResume);
     }
 
     //return the number of resumes in storage
     public int size() {
-        return numberOfRes;
+        return numberOfResume;
     }
 }
