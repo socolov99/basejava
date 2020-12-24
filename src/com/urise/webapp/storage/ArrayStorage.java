@@ -7,10 +7,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private final int STORAGE_CAPACITY = 5;
-    private final Resume[] storage = new Resume[STORAGE_CAPACITY];
-    private int numberOfResume = 0;
+public class ArrayStorage extends AbstractArrayStorage {
 
     //clear the storage
     public void clear() {
