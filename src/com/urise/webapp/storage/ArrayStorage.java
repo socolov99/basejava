@@ -13,13 +13,13 @@ public class ArrayStorage {
     private int numberOfResume = 0;
 
     //return the resume with uuid if it exists in storage (else return null)
-    private Resume findEqualResume(String uuid) {
+    private int findIndexResume(String uuid) {
         for (int i = 0; i < numberOfResume; i++) {
-            if (storage[i].equals(new Resume(uuid))) {
-                return storage[i];
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     //clear the storage
@@ -30,7 +30,7 @@ public class ArrayStorage {
 
     //add new resume if it doesn't exist in storage and if storage is not full
     public void save(Resume resume) {
-        if (findEqualResume(resume.getUuid()) != null) {
+        if (findIndexResume(resume.getUuid()) != -1) {
             System.out.println("ERROR: \"" + resume.getUuid() + "\" already exists");
         } else if (numberOfResume == STORAGE_CAPACITY) {
             System.out.println("ERROR: storage is full");
@@ -42,9 +42,9 @@ public class ArrayStorage {
 
     //rewrite the resume if it exists in storage
     public void update(Resume resume) {
-        Resume updatingResume = findEqualResume(resume.getUuid());
-        if (updatingResume != null) {
-            updatingResume = resume;
+        int indexResume = findIndexResume(resume.getUuid());
+        if (indexResume != -1) {
+            storage[indexResume].setUuid(resume.getUuid());
         } else {
             System.out.println("ERROR: \"" + resume.getUuid() + "\" wasn't found");
         }
@@ -52,9 +52,9 @@ public class ArrayStorage {
 
     //return the resume if it exists in storage (else return null)
     public Resume get(String uuid) {
-        Resume gettingResum = findEqualResume(uuid);
-        if (gettingResum != null) {
-            return gettingResum;
+        int indexResume = findIndexResume(uuid);
+        if (indexResume != -1) {
+            return storage[indexResume];
         } else {
             System.out.println("ERROR: \"" + uuid + "\" wasn't found");
             return null;
@@ -63,9 +63,9 @@ public class ArrayStorage {
 
     //delete the resume if it exists in storage
     public void delete(String uuid) {
-        Resume deletingResume = findEqualResume(uuid);
-        if (deletingResume != null) {
-            deletingResume.setUuid(storage[numberOfResume - 1].getUuid());
+        int indexResume = findIndexResume(uuid);
+        if (indexResume != -1) {
+            storage[indexResume].setUuid(storage[numberOfResume - 1].getUuid());
             storage[numberOfResume - 1] = null;
             numberOfResume--;
         } else {
