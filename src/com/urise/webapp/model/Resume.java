@@ -12,9 +12,6 @@ public class Resume {
         this.uuid = uuid;
     }
 
-    public Resume() {
-    }
-
     public String getUuid() {
         return this.uuid;
     }

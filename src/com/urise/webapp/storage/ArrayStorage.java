@@ -12,19 +12,9 @@ public class ArrayStorage {
     private final Resume[] storage = new Resume[STORAGE_CAPACITY];
     private int numberOfResume = 0;
 
-    //return the resume with uuid if it exists in storage (else return null)
-    private int findIndexResume(String uuid) {
-        for (int i = 0; i < numberOfResume; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     //clear the storage
     public void clear() {
-        Arrays.fill(storage, 0, numberOfResume - 1, null);
+        Arrays.fill(storage, 0, numberOfResume, null);
         numberOfResume = 0;
     }
 
@@ -55,22 +45,31 @@ public class ArrayStorage {
         int indexResume = findIndexResume(uuid);
         if (indexResume != -1) {
             return storage[indexResume];
-        } else {
-            System.out.println("ERROR: \"" + uuid + "\" wasn't found");
-            return null;
         }
+        System.out.println("ERROR: \"" + uuid + "\" wasn't found");
+        return null;
     }
 
     //delete the resume if it exists in storage
     public void delete(String uuid) {
         int indexResume = findIndexResume(uuid);
         if (indexResume != -1) {
-            storage[indexResume].setUuid(storage[numberOfResume - 1].getUuid());
+            storage[indexResume] = storage[numberOfResume - 1];
             storage[numberOfResume - 1] = null;
             numberOfResume--;
         } else {
             System.out.println("ERROR: \"" + uuid + "\" wasn't found");
         }
+    }
+
+    //return the resume with uuid if it exists in storage (else return null)
+    private int findIndexResume(String uuid) {
+        for (int i = 0; i < numberOfResume; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     //return array of resumes
