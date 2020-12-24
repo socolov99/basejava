@@ -37,16 +37,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //return the resume if it exists in storage (else return null)
-    public Resume get(String uuid) {
-        int indexResume = findIndexResume(uuid);
-        if (indexResume != -1) {
-            return storage[indexResume];
-        }
-        System.out.println("ERROR: \"" + uuid + "\" wasn't found");
-        return null;
-    }
-
     //delete the resume if it exists in storage
     public void delete(String uuid) {
         int indexResume = findIndexResume(uuid);
@@ -60,7 +50,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     //return the resume with uuid if it exists in storage (else return null)
-    private int findIndexResume(String uuid) {
+    protected int findIndexResume(String uuid) {
         for (int i = 0; i < numberOfResume; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
