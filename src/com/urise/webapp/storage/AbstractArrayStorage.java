@@ -21,6 +21,9 @@ public abstract class AbstractArrayStorage implements Storage {
         return null;
     }
 
+    //return resume's index if it exists in storage (else return negative value)
+    protected abstract int findIndexResume(String uuid);
+
     public void clear() {
         Arrays.fill(storage, 0, numberOfResume, null);
         numberOfResume = 0;
@@ -33,7 +36,5 @@ public abstract class AbstractArrayStorage implements Storage {
     public int size() {
         return numberOfResume;
     }
-
-    protected abstract int findIndexResume(String uuid);
 
 }

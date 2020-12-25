@@ -4,6 +4,9 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
+/**
+ * Sorted array based storage for Resumes
+ */
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
@@ -43,7 +46,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //return resume's index if it exists in storage (else return -1)
     @Override
     protected int findIndexResume(String uuid) {
         Resume searchKeyResume = new Resume(uuid);

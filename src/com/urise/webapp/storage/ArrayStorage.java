@@ -40,7 +40,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //return resume's index if it exists in storage (else return -1)
     protected int findIndexResume(String uuid) {
         for (int i = 0; i < numberOfResume; i++) {
             if (storage[i].getUuid().equals(uuid)) {
