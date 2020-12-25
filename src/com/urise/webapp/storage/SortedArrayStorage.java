@@ -7,38 +7,46 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
     public void save(Resume resume) {
-
+        int indexResume = findIndexResume(resume.getUuid());
+        if (indexResume >= 0) {
+            System.out.println("ERROR: \"" + resume.getUuid() + "\" already exists");
+        } else if (numberOfResume == STORAGE_CAPACITY) {
+            System.out.println("ERROR: storage is full");
+        } else {
+            indexResume = -indexResume - 1;
+            System.arraycopy(storage, indexResume, storage, indexResume + 1, numberOfResume - indexResume);
+            storage[indexResume] = resume;
+            numberOfResume++;
+        }
     }
 
     @Override
     public void update(Resume resume) {
-
+        int indexResume = findIndexResume(resume.getUuid());
+        if (indexResume >= 0) {
+            storage[indexResume].setUuid(resume.getUuid());
+        } else {
+            System.out.println("ERROR: \"" + resume.getUuid() + "\" wasn't found");
+        }
     }
 
     @Override
     public void delete(String uuid) {
-
+        int indexResume = findIndexResume(uuid);
+        if (indexResume >= 0) {
+            System.arraycopy(storage, indexResume + 1, storage, indexResume, numberOfResume - 1 - indexResume);
+            storage[numberOfResume - 1] = null;
+            numberOfResume--;
+        } else {
+            System.out.println("ERROR: \"" + uuid + "\" wasn't found");
+        }
     }
 
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
-    }
-
-    @Override
-    public int size() {
-        return 0;
-    }
-
+    //return resume's index if it exists in storage (else return -1)
     @Override
     protected int findIndexResume(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, numberOfResume, searchKey);
+        Resume searchKeyResume = new Resume(uuid);
+        return Arrays.binarySearch(storage, 0, numberOfResume, searchKeyResume);
     }
 }

@@ -2,20 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    //clear the storage
-    public void clear() {
-        Arrays.fill(storage, 0, numberOfResume, null);
-        numberOfResume = 0;
-    }
-
-    //add new resume if it doesn't exist in storage and if storage is not full
     public void save(Resume resume) {
         if (findIndexResume(resume.getUuid()) != -1) {
             System.out.println("ERROR: \"" + resume.getUuid() + "\" already exists");
@@ -27,7 +18,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //rewrite the resume if it exists in storage
+    @Override
     public void update(Resume resume) {
         int indexResume = findIndexResume(resume.getUuid());
         if (indexResume != -1) {
@@ -37,7 +28,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //delete the resume if it exists in storage
+    @Override
     public void delete(String uuid) {
         int indexResume = findIndexResume(uuid);
         if (indexResume != -1) {
@@ -49,7 +40,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    //return the resume with uuid if it exists in storage (else return null)
+    //return resume's index if it exists in storage (else return -1)
     protected int findIndexResume(String uuid) {
         for (int i = 0; i < numberOfResume; i++) {
             if (storage[i].getUuid().equals(uuid)) {
@@ -57,15 +48,5 @@ public class ArrayStorage extends AbstractArrayStorage {
             }
         }
         return -1;
-    }
-
-    //return array of resumes
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, numberOfResume);
-    }
-
-    //return the number of resumes in storage
-    public int size() {
-        return numberOfResume;
     }
 }
