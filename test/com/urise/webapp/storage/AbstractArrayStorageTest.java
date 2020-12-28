@@ -15,10 +15,11 @@ public abstract class AbstractArrayStorageTest {
     static private final String UUID1 = "uuid1";
     static private final String UUID2 = "uuid2";
     static private final String UUID3 = "uuid3";
+    static private final String NewUUID = "NewResumeUUID";
     static private final Resume resume1 = new Resume(UUID1);
     static private final Resume resume2 = new Resume(UUID2);
     static private final Resume resume3 = new Resume(UUID3);
-    static private final Resume newResume = new Resume("NewResumeUUID");
+    static private final Resume newResume = new Resume(NewUUID);
 
     private final Storage storage;
 
@@ -77,7 +78,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void updateNotExist() throws Exception {
-        storage.update(new Resume("Dummy"));
+        storage.update(newResume);
     }
 
     @Test(expected = NotExistStorageException.class)
