@@ -61,16 +61,16 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void saveOverflow() throws Exception {
-        AbstractArrayStorage arrayStorage = createArrayStorage();
-        int capacity = arrayStorage.STORAGE_CAPACITY;
+
+        int capacity = ((AbstractArrayStorage) storage).STORAGE_CAPACITY;
         try {
-            for (int i = 0; i < capacity; i++) {
-                arrayStorage.save(new Resume("u" + i));
+            for (int i = storage.size(); i < capacity; i++) {
+                storage.save(new Resume("u" + i));
             }
         } catch (StorageException storageException) {
             Assert.fail("storage isn't overflow yet");
         }
-        arrayStorage.save(new Resume("uOverFlow"));
+        storage.save(new Resume("uOverFlow"));
     }
 
     protected abstract AbstractArrayStorage createArrayStorage();
