@@ -13,6 +13,9 @@ public abstract class AbstractArrayStorageTest {
     static private final String UUID1 = "uuid1";
     static private final String UUID2 = "uuid2";
     static private final String UUID3 = "uuid3";
+    static private final Resume resume1 = new Resume(UUID1);
+    static private final Resume resume2 = new Resume(UUID2);
+    static private final Resume resume3 = new Resume(UUID3);
 
     private final Storage storage;
 
@@ -23,9 +26,9 @@ public abstract class AbstractArrayStorageTest {
     @Before
     public void setUp() throws Exception {
         storage.clear();
-        storage.save(new Resume(UUID1));
-        storage.save(new Resume(UUID2));
-        storage.save(new Resume(UUID3));
+        storage.save(resume1);
+        storage.save(resume2);
+        storage.save(resume3);
     }
 
     @Test
