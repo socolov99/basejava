@@ -40,8 +40,15 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void save() throws Exception {
+        int oldSize = storage.size();
         storage.save(new Resume("uuid4"));
-        Assert.assertEquals(new Resume("uuid4"), storage.get("uuid4"));
+        int newSize = storage.size();
+        if (newSize - oldSize == 1) {
+            Assert.assertEquals(new Resume("uuid4"), storage.get("uuid4"));
+        } else {
+            Assert.fail("the storage size hasn't increased");
+        }
+
     }
 
     @Test(expected = ExistStorageException.class)
@@ -78,8 +85,14 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void delete() throws Exception {
+        int oldSize = storage.size();
         storage.delete(UUID1);
-        storage.get(UUID1);
+        int newSize = storage.size();
+        if (oldSize - newSize == 1) {
+            storage.get(UUID1);
+        } else {
+            Assert.fail("the storage size hasn't decreased");
+        }
     }
 
     @Test(expected = NotExistStorageException.class)
