@@ -82,9 +82,4 @@ public class ListStorage extends AbstractStorage {
         return array;
     }
 
-    @Override
-    public int size() {
-        return list.size();
-    }
-
 }

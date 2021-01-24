@@ -24,6 +24,4 @@ public interface Storage {
     //return array of resumes
     Resume[] getAll();
 
-    //return the number of resumes in storage
-    int size();
 }

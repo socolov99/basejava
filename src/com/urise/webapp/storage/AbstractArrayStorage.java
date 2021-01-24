@@ -70,7 +70,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return Arrays.copyOf(storage, numberOfResume);
     }
 
-    @Override
     public int size() {
         return numberOfResume;
     }
