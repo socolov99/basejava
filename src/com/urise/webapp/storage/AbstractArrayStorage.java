@@ -10,10 +10,10 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
+    protected int numberOfResume = 0;
     protected static final int STORAGE_CAPACITY = 5;
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
-    protected int numberOfResume = 0;
 
     @Override
     public Resume get(String uuid) {
