@@ -1,71 +1,44 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
     private final List<Resume> list = new ArrayList<>();
 
     @Override
-    public Resume get(String uuid) {
-        Iterator<Resume> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (r.getUuid().equals(uuid)) {
-                return r;
-            }
-        }
-        throw new NotExistStorageException(uuid);
+    protected Resume returnResumeByIndex(int indexResume) {
+        return list.get(indexResume);
+    }
+
+    protected int findIndexResume(String uuid) {
+        Resume resume = new Resume(uuid);
+        return ((ArrayList<Resume>) list).indexOf(resume);
     }
 
     @Override
-    public void save(Resume resume) {
-        Iterator<Resume> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (r.getUuid() == resume.getUuid()) {
-                throw new ExistStorageException(resume.getUuid());
-            }
-        }
+    protected void addResume(Resume resume, int indexResume) {
         list.add(resume);
     }
 
     @Override
-    public void update(Resume resume) {
-        boolean isException = true;
-        Iterator<Resume> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (r.getUuid().equals(resume.getUuid())) {
-                r = resume;
-                isException = false;
-            }
+    protected void saveProblemCheck(Resume resume, int indexResume) {
+        if (indexResume >= 0) {
+            throw new ExistStorageException(resume.getUuid());
         }
-        if (isException) {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-
     }
 
     @Override
-    public void delete(String uuid) {
-        boolean isException = true;
-        Iterator<Resume> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Resume r = iterator.next();
-            if (r.getUuid().equals(uuid)) {
-                iterator.remove();
-                isException = false;
-            }
-        }
-        if (isException) {
-            throw new NotExistStorageException(uuid);
-        }
+    protected void changeResume(Resume resume, int indexResume) {
+        list.set(indexResume, resume);
+    }
+
+    @Override
+    protected void removeResume(int indexResume) {
+        list.remove(indexResume);
     }
 
     @Override
@@ -80,6 +53,11 @@ public class ListStorage extends AbstractStorage {
             array[i] = list.get(i);
         }
         return array;
+    }
+
+    @Override
+    public int size() {
+        return list.size();
     }
 
 }
