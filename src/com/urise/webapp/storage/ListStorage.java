@@ -14,6 +14,7 @@ public class ListStorage extends AbstractStorage {
         return list.get(indexResume);
     }
 
+    @Override
     protected int findIndexResume(String uuid) {
         Resume resume = new Resume(uuid);
         return ((ArrayList<Resume>) list).indexOf(resume);
