@@ -14,15 +14,39 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
 
     @Override
-    protected void changeResume(Resume resume, int indexResume) {
-        storage[indexResume] = resume;
+    protected boolean isExist(Object key) {
+        return (Integer) key >= 0;
     }
 
     @Override
-    protected void removeResume(int indexResume) {
-        movingArrayLeft(indexResume);
+    protected void changeResume(Resume resume, Object indexResume) {
+        storage[(Integer) indexResume] = resume;
+    }
+
+    @Override
+    protected void removeResume(Object indexResume) {
+        movingArrayLeft((Integer) indexResume);
         storage[numberOfResume - 1] = null;
         numberOfResume--;
+    }
+
+    @Override
+    protected Resume getByKey(Object indexResume) {
+        return storage[(Integer) indexResume];
+    }
+
+    @Override
+    protected void addResume(Resume resume, Object indexResume) {
+        if (numberOfResume == STORAGE_CAPACITY) {
+            throw new StorageException("Storage overflow", resume.getUuid());
+        }
+        insert(resume, (Integer) indexResume);
+        numberOfResume++;
+    }
+
+    @Override
+    public int size() {
+        return numberOfResume;
     }
 
     @Override
@@ -37,23 +61,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getByIndex(int indexResume) {
-        return storage[indexResume];
-    }
-
-    @Override
-    protected void addResume(Resume resume, int indexResume) {
-        if (numberOfResume == STORAGE_CAPACITY) {
-            throw new StorageException("Storage overflow", resume.getUuid());
-        }
-        insert(resume, indexResume);
-        numberOfResume++;
-    }
-
-    @Override
-    public int size() {
-        return numberOfResume;
-    }
+    protected abstract Integer findKey(String uuid);
 
     //insert resume to array
     protected abstract void insert(Resume resume, int indexResume);

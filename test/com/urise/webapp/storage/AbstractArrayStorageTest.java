@@ -24,4 +24,9 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         }
         storage.save(new Resume("uOverFlow"));
     }
+
+    @Override
+    public void ArraysEquals(Resume [] resumes){
+        Assert.assertArrayEquals(resumes, storage.getAll());
+    }
 }

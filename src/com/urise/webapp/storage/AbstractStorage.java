@@ -8,27 +8,27 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        int indexResume = findIndexResume(uuid);
-        if (indexResume >= 0) {
-            return getByIndex(indexResume);
+        Object key = findKey(uuid);
+        if (isExist(key)) {
+            return getByKey(key);
         }
         throw new NotExistStorageException(uuid);
     }
 
     @Override
     public void save(Resume resume) {
-        int indexResume = findIndexResume(resume.getUuid());
-        if (indexResume >= 0) {
+        Object key = findKey(resume.getUuid());
+        if (isExist(key)) {
             throw new ExistStorageException(resume.getUuid());
         }
-        addResume(resume, indexResume);
+        addResume(resume, key);
     }
 
     @Override
     public void update(Resume resume) {
-        int indexResume = findIndexResume(resume.getUuid());
-        if (indexResume >= 0) {
-            changeResume(resume, indexResume);
+        Object key = findKey(resume.getUuid());
+        if (isExist(key)) {
+            changeResume(resume, key);
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
@@ -36,9 +36,9 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        int indexResume = findIndexResume(uuid);
-        if (indexResume >= 0) {
-            removeResume(indexResume);
+        Object key = findKey(uuid);
+        if (isExist(key)) {
+            removeResume(key);
         } else {
             throw new NotExistStorageException(uuid);
         }
@@ -47,20 +47,23 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public abstract int size();
 
+    //check if resume already exists in storage
+    protected abstract boolean isExist(Object key);
+
     //remove resume by it's index
-    protected abstract void removeResume(int indexResume);
+    protected abstract void removeResume(Object indexResume);
 
     //change resume by it's index
-    protected abstract void changeResume(Resume resume, int indexResume);
+    protected abstract void changeResume(Resume resume, Object indexResume);
 
     //add resume to the storage
-    protected abstract void addResume(Resume resume, int indexResume);
+    protected abstract void addResume(Resume resume, Object indexResume);
 
     //return resume by it's index
-    protected abstract Resume getByIndex(int indexResume);
+    protected abstract Resume getByKey(Object indexResume);
 
-    //return resume's index if it exists in storage (else return negative value)
-    protected abstract int findIndexResume(String uuid);
+    //return resume's key if it exists in storage (else return negative value)
+    protected abstract Object findKey(String uuid);
 
 
 }

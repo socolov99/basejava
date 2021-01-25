@@ -8,15 +8,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AbstractStorageTest {
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_NEW = "NewUUID4";
+    protected static final String UUID_1 = "uuid1";
+    protected static final String UUID_2 = "uuid2";
+    protected static final String UUID_3 = "uuid3";
+    protected static final String UUID_NEW = "NewUUID4";
 
-    private static final Resume RESUME_1;
-    private static final Resume RESUME_2;
-    private static final Resume RESUME_3;
-    private static final Resume RESUME_NEW;
+    protected static final Resume RESUME_1;
+    protected static final Resume RESUME_2;
+    protected static final Resume RESUME_3;
+    protected static final Resume RESUME_NEW;
 
     protected final Storage storage;
 
@@ -90,7 +90,6 @@ public abstract class AbstractStorageTest {
         Assert.assertEquals(0, storage.size());
     }
 
-    @Deprecated
     @Test
     public void getAll() throws Exception {
         Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
@@ -102,4 +101,6 @@ public abstract class AbstractStorageTest {
     public void size() throws Exception {
         Assert.assertEquals(3, storage.size());
     }
+
+    protected abstract void ArraysEquals(Resume [] resumes);
 }
