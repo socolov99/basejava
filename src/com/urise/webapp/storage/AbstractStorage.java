@@ -65,5 +65,4 @@ public abstract class AbstractStorage implements Storage {
     //return resume's key if it exists in storage (else return negative value)
     protected abstract Object findKey(String uuid);
 
-
 }

@@ -28,8 +28,7 @@ public class MainCollection {
 
         System.out.println(list.toString());
 
-        Set<Resume> set = new HashSet<>();
-        set.addAll(list);
+        Set<Resume> set = new HashSet<>(list);
         System.out.println(set);
 
         Map<String, Resume> map = new HashMap<>();
