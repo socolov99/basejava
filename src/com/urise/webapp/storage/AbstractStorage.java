@@ -9,7 +9,7 @@ public abstract class AbstractStorage implements Storage {
     public Resume get(String uuid) {
         int indexResume = findIndexResume(uuid);
         if (indexResume >= 0) {
-            return returnResumeByIndex(indexResume);
+            return getByIndex(indexResume);
         }
         throw new NotExistStorageException(uuid);
     }
@@ -17,7 +17,6 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public void save(Resume resume) {
         int indexResume = findIndexResume(resume.getUuid());
-        saveProblemCheck(resume, indexResume);
         addResume(resume, indexResume);
     }
 
@@ -50,14 +49,11 @@ public abstract class AbstractStorage implements Storage {
     //change resume by it's index
     protected abstract void changeResume(Resume resume, int indexResume);
 
-    //throw exceptions if it is impossible to save resume
-    protected abstract void saveProblemCheck(Resume resume, int indexResume);
-
     //add resume to the storage
     protected abstract void addResume(Resume resume, int indexResume);
 
     //return resume by it's index
-    protected abstract Resume returnResumeByIndex(int indexResume);
+    protected abstract Resume getByIndex(int indexResume);
 
     //return resume's index if it exists in storage (else return negative value)
     protected abstract int findIndexResume(String uuid);

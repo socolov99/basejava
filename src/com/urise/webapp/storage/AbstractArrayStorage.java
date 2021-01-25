@@ -15,15 +15,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
 
     @Override
-    protected void saveProblemCheck(Resume resume, int indexResume) {
-        if (indexResume >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else if (numberOfResume == STORAGE_CAPACITY) {
-            throw new StorageException("Storage overflow", resume.getUuid());
-        }
-    }
-
-    @Override
     protected void changeResume(Resume resume, int indexResume) {
         storage[indexResume] = resume;
     }
@@ -47,12 +38,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume returnResumeByIndex(int indexResume) {
+    protected Resume getByIndex(int indexResume) {
         return storage[indexResume];
     }
 
     @Override
     protected void addResume(Resume resume, int indexResume) {
+        if (indexResume >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else if (numberOfResume == STORAGE_CAPACITY) {
+            throw new StorageException("Storage overflow", resume.getUuid());
+        }
         insert(resume, indexResume);
         numberOfResume++;
     }

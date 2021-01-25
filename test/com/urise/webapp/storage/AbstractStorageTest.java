@@ -8,15 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AbstractStorageTest {
-    static private final String UUID_1 = "uuid1";
-    static private final String UUID_2 = "uuid2";
-    static private final String UUID_3 = "uuid3";
-    static private final String UUID_NEW = "NewResumeUUID";
+    private static final String UUID_1 = "uuid1";
+    private static final String UUID_2 = "uuid2";
+    private static final String UUID_3 = "uuid3";
+    private static final String UUID_NEW = "NewUUID4";
 
-    static private final Resume RESUME_1;
-    static private final Resume RESUME_2;
-    static private final Resume RESUME_3;
-    static private final Resume RESUME_NEW;
+    private static final Resume RESUME_1;
+    private static final Resume RESUME_2;
+    private static final Resume RESUME_3;
+    private static final Resume RESUME_NEW;
+
+    protected final Storage storage;
 
     static {
         RESUME_1 = new Resume(UUID_1);
@@ -24,8 +26,6 @@ public abstract class AbstractStorageTest {
         RESUME_3 = new Resume(UUID_3);
         RESUME_NEW = new Resume(UUID_NEW);
     }
-
-    protected final Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -46,7 +46,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
-        storage.get("Dummy");
+        storage.get(UUID_NEW);
     }
 
     @Test
@@ -81,7 +81,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExit() throws Exception {
-        storage.delete("Dummy");
+        storage.delete(UUID_NEW);
     }
 
     @Test
