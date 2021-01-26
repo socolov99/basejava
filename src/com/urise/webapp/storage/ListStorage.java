@@ -47,6 +47,7 @@ public class ListStorage extends AbstractStorage {
 
     private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
+    @Override
     public List<Resume> getAllSorted() {
         list.sort(RESUME_COMPARATOR);
         return list;

@@ -4,31 +4,33 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Object key = getSearchKey(uuid);
-        if (isExist(key)) {
-            return getResumeBySearchKey(key);
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            return getResumeBySearchKey(searchKey);
         }
         throw new NotExistStorageException(uuid);
     }
 
     @Override
     public void save(Resume resume) {
-        Object key = getSearchKey(resume.getUuid());
-        if (isExist(key)) {
+        Object searchKey = getSearchKey(resume.getUuid());
+        if (isExist(searchKey)) {
             throw new ExistStorageException(resume.getUuid());
         }
-        addResume(resume, key);
+        addResume(resume, searchKey);
     }
 
     @Override
     public void update(Resume resume) {
-        Object key = getSearchKey(resume.getUuid());
-        if (isExist(key)) {
-            changeResume(resume, key);
+        Object searchKey = getSearchKey(resume.getUuid());
+        if (isExist(searchKey)) {
+            changeResume(resume, searchKey);
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
@@ -36,9 +38,9 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        Object key = getSearchKey(uuid);
-        if (isExist(key)) {
-            removeResume(key);
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            removeResume(searchKey);
         } else {
             throw new NotExistStorageException(uuid);
         }
@@ -47,20 +49,26 @@ public abstract class AbstractStorage implements Storage {
     @Override
     public abstract int size();
 
+    @Override
+    public abstract void clear();
+
+    @Override
+    public abstract List<Resume> getAllSorted();
+
     //check if resume already exists in storage
-    protected abstract boolean isExist(Object key);
+    protected abstract boolean isExist(Object searchKey);
 
     //remove resume by it's index
-    protected abstract void removeResume(Object indexResume);
+    protected abstract void removeResume(Object searchKey);
 
     //change resume by it's index
-    protected abstract void changeResume(Resume resume, Object indexResume);
+    protected abstract void changeResume(Resume resume, Object searchKey);
 
     //add resume to the storage
-    protected abstract void addResume(Resume resume, Object indexResume);
+    protected abstract void addResume(Resume resume, Object searchKey);
 
     //return resume by it's search key
-    protected abstract Resume getResumeBySearchKey(Object indexResume);
+    protected abstract Resume getResumeBySearchKey(Object searchKey);
 
     //return resume's search key if it exists in storage
     protected abstract Object getSearchKey(String uuid);

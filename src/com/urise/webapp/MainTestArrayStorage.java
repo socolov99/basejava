@@ -1,19 +1,19 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.SortedArrayStorage;
+import com.urise.webapp.storage.MapResumeStorage;
 import com.urise.webapp.storage.Storage;
 
 /**
  * Test for your com.urise.webapp.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    static final Storage ARRAY_STORAGE = new MapResumeStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        Resume r1 = new Resume("uuid1", "Alex");
+        Resume r2 = new Resume("uuid2", "John");
+        Resume r3 = new Resume("uuid3", "John");
         Resume r4 = new Resume("uuid_unsaved");
 
         ARRAY_STORAGE.save(r3);
@@ -28,7 +28,7 @@ public class MainTestArrayStorage {
         System.out.println("\nDelete r1");
         ARRAY_STORAGE.delete(r1.getUuid());
         printAll();
-        System.out.println("Size: " + ARRAY_STORAGE.size());
+
 
         System.out.println("\nUpdate r2");
         ARRAY_STORAGE.update(r2);
