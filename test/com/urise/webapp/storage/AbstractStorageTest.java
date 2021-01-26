@@ -91,16 +91,16 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() throws Exception {
-        Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
-        Assert.assertEquals(3, storage.size());
-        Assert.assertArrayEquals(resumes, storage.getAll());
-    }
-
-    @Test
     public void size() throws Exception {
         Assert.assertEquals(3, storage.size());
     }
 
-    protected abstract void ArraysEquals(Resume [] resumes);
+    @Test
+    public void getAll() throws Exception {
+        Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
+        Assert.assertEquals(3, storage.size());
+        ArraysEquals(resumes);
+    }
+
+    protected abstract void ArraysEquals(Resume[] resumes);
 }
