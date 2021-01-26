@@ -2,6 +2,8 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
+import java.util.List;
+
 /**
  * Array based storage for Resumes interface
  */
@@ -21,8 +23,8 @@ public interface Storage {
     //delete the resume if it exists in storage
     void delete(String uuid);
 
-    //return array of resumes
-    Resume[] getAll();
+    //return sorted list of resumes
+    List<Resume> getAllSorted();
 
     //return storage size
     int size();

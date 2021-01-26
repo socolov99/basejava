@@ -10,6 +10,6 @@ public class ListStorageTest extends AbstractStorageTest {
 
     @Override
     protected void ArraysEquals(Resume[] resumes) {
-        Assert.assertArrayEquals(resumes, storage.getAll());
+        Assert.assertArrayEquals(resumes, storage.getAllSorted().toArray());
     }
 }

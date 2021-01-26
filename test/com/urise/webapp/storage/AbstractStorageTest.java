@@ -35,8 +35,8 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
         storage.save(RESUME_1);
-        storage.save(RESUME_2);
         storage.save(RESUME_3);
+        storage.save(RESUME_2);
     }
 
     @Test
@@ -96,7 +96,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAllSorted() throws Exception {
         Resume[] resumes = {RESUME_1, RESUME_2, RESUME_3};
         Assert.assertEquals(3, storage.size());
         ArraysEquals(resumes);

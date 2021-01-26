@@ -4,6 +4,8 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -31,7 +33,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getByKey(Object indexResume) {
+    protected Resume getResumeBySearchKey(Object indexResume) {
         return storage[(Integer) indexResume];
     }
 
@@ -55,13 +57,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         numberOfResume = 0;
     }
 
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, numberOfResume);
-    }
+    protected static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
-    protected abstract Integer findKey(String uuid);
+    public abstract List<Resume> getAllSorted();
+
+    @Override
+    protected abstract Integer getSearchKey(String uuid);
 
     //insert resume to array
     protected abstract void insert(Resume resume, int indexResume);

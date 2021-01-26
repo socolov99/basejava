@@ -2,8 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> map = new HashMap<>();
@@ -13,9 +12,13 @@ public class MapStorage extends AbstractStorage {
         map.clear();
     }
 
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
+
     @Override
-    public Resume[] getAll() {
-        return map.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<Resume>(map.values());
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     @Override
@@ -39,12 +42,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getByKey(Object key) {
+    protected Resume getResumeBySearchKey(Object key) {
         return map.get((String) key);
     }
 
     @Override
-    protected String findKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 

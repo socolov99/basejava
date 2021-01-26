@@ -26,7 +26,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     }
 
     @Override
-    public void ArraysEquals(Resume [] resumes){
-        Assert.assertArrayEquals(resumes, storage.getAll());
+    public void ArraysEquals(Resume[] resumes) {
+        Assert.assertArrayEquals(resumes, storage.getAllSorted().toArray());
     }
 }
