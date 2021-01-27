@@ -32,7 +32,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        Arrays.sort(storage, 0, numberOfResume, RESUME_COMPARATOR);
+        Arrays.sort(storage, 0, numberOfResume);
         return Arrays.asList(storage).subList(0, numberOfResume);
     }
 }

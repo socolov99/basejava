@@ -4,7 +4,6 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,8 +55,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         Arrays.fill(storage, 0, numberOfResume, null);
         numberOfResume = 0;
     }
-
-    protected static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
     public abstract List<Resume> getAllSorted();

@@ -12,12 +12,10 @@ public class MapResumeStorage extends AbstractStorage {
         map.clear();
     }
 
-    private final static Comparator<Resume> FULL_NAME_UUID_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
-
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<Resume>(map.values());
-        list.sort(FULL_NAME_UUID_COMPARATOR);
+        Collections.sort(list);
         return list;
     }
 
