@@ -8,54 +8,47 @@ public class MapUuidStorage extends AbstractStorage {
     private final Map<String, Resume> map = new HashMap<>();
 
     @Override
-    public void clear() {
-        map.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<Resume>(map.values());
-        Collections.sort(list);
-        return list;
-    }
-
-    @Override
-    public int size() {
-        return map.size();
-    }
-
-    @Override
-    protected void removeResume(Object searchKey) {
-        map.remove((String) searchKey);
-    }
-
-    @Override
-    protected void changeResume(Resume resume, Object searchKey) {
-        map.put((String) searchKey, resume);
-    }
-
-    @Override
-    protected void addResume(Resume resume, Object searchKey) {
-        map.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected Resume getResumeBySearchKey(Object searchKey) {
-        return map.get((String) searchKey);
-    }
-
-    @Override
     protected String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected boolean isExist(Object searchKey) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            if (entry.getKey().equals((String) searchKey)) {
-                return true;
-            }
-        }
-        return false;
+    protected void updateResume(Resume r, Object uuid) {
+        map.put((String) uuid, r);
+    }
+
+    @Override
+    protected boolean isExist(Object uuid) {
+        return map.containsKey((String) uuid);
+    }
+
+    @Override
+    protected void addResume(Resume r, Object uuid) {
+        map.put((String) uuid, r);
+    }
+
+    @Override
+    protected Resume getResume(Object uuid) {
+        return map.get((String) uuid);
+    }
+
+    @Override
+    protected void removeResume(Object uuid) {
+        map.remove((String) uuid);
+    }
+
+    @Override
+    public void clear() {
+        map.clear();
+    }
+
+    @Override
+    public List<Resume> getStorageCopyList() {
+        return new ArrayList<>(map.values());
+    }
+
+    @Override
+    public int size() {
+        return map.size();
     }
 }

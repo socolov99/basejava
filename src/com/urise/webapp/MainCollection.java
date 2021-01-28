@@ -9,22 +9,14 @@ public class MainCollection {
 
         List<Resume> list = new LinkedList<>();
         for (int i = 30; i >= 0; i--) {
-            list.add(new Resume("uuid" + i));
+            list.add(new Resume("Name" + i));
         }
 
         for (int i = 30; i >= 0; i--) {
-            list.add(new Resume("uuid" + i));
+            list.add(new Resume("Name" + i));
         }
 
-        Iterator<Resume> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            Resume resume = iterator.next();
-            int id = Integer.parseInt(resume.getUuid().substring(4));
-            if (id % 2 == 0) {
-                iterator.remove();
-            }
-            System.out.println(id);
-        }
+
 
         System.out.println(list.toString());
 
@@ -32,9 +24,9 @@ public class MainCollection {
         System.out.println(set);
 
         Map<String, Resume> map = new HashMap<>();
-        Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        Resume r1 = new Resume("Asap");
+        Resume r2 = new Resume("Jack");
+        Resume r3 = new Resume("John");
         map.put(r1.getUuid(), r1);
         map.put(r2.getUuid(), r2);
         map.put(r3.getUuid(), r3);

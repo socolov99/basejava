@@ -10,62 +10,58 @@ import java.util.List;
  * Array based storage for Resumes
  */
 public abstract class AbstractArrayStorage extends AbstractStorage {
-    protected int numberOfResume = 0;
     protected static final int STORAGE_CAPACITY = 5;
-    protected final Resume[] storage = new Resume[STORAGE_CAPACITY];
+    protected Resume[] storage = new Resume[STORAGE_CAPACITY];
+    protected int storageSize = 0;
 
-    @Override
-    protected boolean isExist(Object key) {
-        return (Integer) key >= 0;
-    }
-
-    @Override
-    protected void changeResume(Resume resume, Object indexResume) {
-        storage[(Integer) indexResume] = resume;
-    }
-
-    @Override
-    protected void removeResume(Object indexResume) {
-        movingArrayLeft((Integer) indexResume);
-        storage[numberOfResume - 1] = null;
-        numberOfResume--;
-    }
-
-    @Override
-    protected Resume getResumeBySearchKey(Object indexResume) {
-        return storage[(Integer) indexResume];
-    }
-
-    @Override
-    protected void addResume(Resume resume, Object indexResume) {
-        if (numberOfResume == STORAGE_CAPACITY) {
-            throw new StorageException("Storage overflow", resume.getUuid());
-        }
-        insert(resume, (Integer) indexResume);
-        numberOfResume++;
-    }
-
-    @Override
     public int size() {
-        return numberOfResume;
+        return storageSize;
     }
 
-    @Override
     public void clear() {
-        Arrays.fill(storage, 0, numberOfResume, null);
-        numberOfResume = 0;
+        Arrays.fill(storage, 0, storageSize, null);
+        storageSize = 0;
     }
 
     @Override
-    public abstract List<Resume> getAllSorted();
+    protected void updateResume(Resume r, Object index) {
+        storage[(Integer) index] = r;
+    }
 
     @Override
+    public List<Resume> getStorageCopyList() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, storageSize));
+    }
+
+    @Override
+    protected void addResume(Resume r, Object index) {
+        if (storageSize == STORAGE_CAPACITY) {
+            throw new StorageException("Storage overflow", r.getUuid());
+        } else {
+            insertElement(r, (Integer) index);
+            storageSize++;
+        }
+    }
+
+    @Override
+    public void removeResume(Object index) {
+        fillDeletedElement((Integer) index);
+        storage[storageSize - 1] = null;
+        storageSize--;
+    }
+
+    public Resume getResume(Object index) {
+        return storage[(Integer) index];
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    protected abstract void fillDeletedElement(int index);
+
+    protected abstract void insertElement(Resume r, int index);
+
     protected abstract Integer getSearchKey(String uuid);
-
-    //insert resume to array
-    protected abstract void insert(Resume resume, int indexResume);
-
-    //move array elements to the left side
-    protected abstract void movingArrayLeft(int indexResume);
-
 }

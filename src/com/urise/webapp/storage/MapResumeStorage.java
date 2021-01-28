@@ -8,50 +8,48 @@ public class MapResumeStorage extends AbstractStorage {
     private final Map<String, Resume> map = new HashMap<>();
 
     @Override
+    protected Resume getSearchKey(String uuid) {
+        return map.get(uuid);
+    }
+
+    @Override
+    protected void updateResume(Resume r, Object resume) {
+        map.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected boolean isExist(Object resume) {
+        return resume != null;
+    }
+
+    @Override
+    protected void addResume(Resume r, Object resume) {
+        map.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected Resume getResume(Object resume) {
+        return (Resume) resume;
+    }
+
+    @Override
+    protected void removeResume(Object resume) {
+        map.remove(((Resume) resume).getUuid());
+    }
+
+    @Override
     public void clear() {
         map.clear();
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<Resume>(map.values());
-        Collections.sort(list);
-        return list;
+    public List<Resume> getStorageCopyList() {
+        return new ArrayList<>(map.values());
     }
 
     @Override
     public int size() {
         return map.size();
     }
-
-    @Override
-    protected void removeResume(Object searchKey) {
-        map.values().removeIf(resume -> resume.equals(searchKey));
-    }
-
-    @Override
-    protected void changeResume(Resume resume, Object searchKey) {
-        removeResume(searchKey);
-        addResume(resume, searchKey);
-    }
-
-    @Override
-    protected void addResume(Resume resume, Object searchKey) {
-        map.put(resume.getUuid(), resume);
-    }
-
-    @Override
-    protected Resume getResumeBySearchKey(Object searchKey) {
-        return (Resume) searchKey;
-    }
-
-    @Override
-    protected Resume getSearchKey(String uuid) {
-        return map.get(uuid);
-    }
-
-    @Override
-    protected boolean isExist(Object searchKey) {
-        return map.containsValue((Resume) searchKey);
-    }
 }
+
