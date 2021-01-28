@@ -13,10 +13,6 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_NEW = "NewUUID4";
 
-    protected static final String NAME_1 = "Alex";
-    protected static final String NAME_2 = "John";
-    protected static final String NAME_3 = "John";
-
     protected static final Resume RESUME_1;
     protected static final Resume RESUME_2;
     protected static final Resume RESUME_3;
@@ -25,10 +21,10 @@ public abstract class AbstractStorageTest {
     protected final Storage storage;
 
     static {
-        RESUME_1 = new Resume(UUID_1, NAME_1);
-        RESUME_2 = new Resume(UUID_2, NAME_2);
-        RESUME_3 = new Resume(UUID_3, NAME_3);
-        RESUME_NEW = new Resume(UUID_NEW);
+        RESUME_1 = new Resume(UUID_1, "Alex");
+        RESUME_2 = new Resume(UUID_2, "John");
+        RESUME_3 = new Resume(UUID_3, "John");
+        RESUME_NEW = new Resume(UUID_NEW,"Tony");
     }
 
     protected AbstractStorageTest(Storage storage) {

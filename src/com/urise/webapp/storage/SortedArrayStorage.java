@@ -33,7 +33,11 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return Arrays.asList(storage).subList(0, numberOfResume);
+        return storageAsList();
     }
 
+    @Override
+    protected List<Resume> storageAsList() {
+        return Arrays.asList(storage).subList(0, numberOfResume);
+    }
 }

@@ -31,8 +31,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        Arrays.sort(storage, 0, numberOfResume);
+    protected List<Resume> storageAsList() {
         return Arrays.asList(storage).subList(0, numberOfResume);
     }
 }
