@@ -1,9 +1,9 @@
 package com.urise.webapp.model;
 
 public enum ContactType {
-    PHONE("Тел."),
-    SKYPE("Skype:"),
-    EMAIL("Почта:");
+    PHONE("Телефон"),
+    SKYPE("Skype"),
+    EMAIL("Почта");
     private final String title;
 
     ContactType(String title) {
