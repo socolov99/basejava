@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_CAPACITY = 5;
     protected Resume[] storage = new Resume[STORAGE_CAPACITY];
     protected int storageSize = 0;
@@ -23,9 +23,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         storageSize = 0;
     }
 
-    @Override
-    protected void updateResume(Resume r, Object index) {
-        storage[(Integer) index] = r;
+    protected void updateResume(Resume r, Integer index) {
+        storage[index] = r;
     }
 
     @Override
@@ -34,29 +33,29 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void addResume(Resume r, Object index) {
+    protected void addResume(Resume r, Integer index) {
         if (storageSize == STORAGE_CAPACITY) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r, (Integer) index);
+            insertElement(r, index);
             storageSize++;
         }
     }
 
     @Override
-    public void removeResume(Object index) {
-        fillDeletedElement((Integer) index);
+    public void removeResume(Integer index) {
+        fillDeletedElement(index);
         storage[storageSize - 1] = null;
         storageSize--;
     }
 
-    public Resume getResume(Object index) {
-        return storage[(Integer) index];
+    public Resume getResume(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     protected abstract void fillDeletedElement(int index);
