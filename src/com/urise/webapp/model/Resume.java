@@ -10,9 +10,9 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     // full name
     private final String fullName;
-
+    //contacts
     private final Map<ContactType,String> contacts = new EnumMap<>(ContactType.class);
-
+    //sections
     private final Map<SectionType,Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
@@ -26,6 +26,14 @@ public class Resume implements Comparable<Resume> {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getContact(ContactType contactType) {
+        return contacts.get(contactType);
+    }
+
+    public Section getSection(SectionType sectionType) {
+        return sections.get(sectionType);
     }
 
     @Override
