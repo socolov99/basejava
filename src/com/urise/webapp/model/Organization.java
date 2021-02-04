@@ -1,12 +1,11 @@
 package com.urise.webapp.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Organization {
     private final String organizationName;
-    private List<Experience> experienceList = new ArrayList<>();
+    private final List<Experience> experienceList;
 
     public Organization(String organizationName, List<Experience> experienceList) {
         this.organizationName = organizationName;
