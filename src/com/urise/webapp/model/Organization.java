@@ -39,5 +39,8 @@ public class Organization {
         return experienceList;
     }
 
-
+    @Override
+    public String toString() {
+        return organizationName + "\n" + experienceList + "\n";
+    }
 }

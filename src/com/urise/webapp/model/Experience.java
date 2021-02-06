@@ -53,4 +53,9 @@ public class Experience {
         result = 31 * result + (experienceDescription != null ? experienceDescription.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return startDate + " – " + endDate + ".\t\t" + experience + "\n" + experienceDescription;
+    }
 }
