@@ -10,6 +10,8 @@ public class Experience {
     private final String description;
 
     public Experience(String experience, YearMonth startDate, YearMonth endDate, String description) {
+        Objects.requireNonNull(startDate,"startDate must not be null");
+        Objects.requireNonNull(endDate,"endDate must not be null");
         this.experience = experience;
         this.startDate = startDate;
         this.endDate = endDate;

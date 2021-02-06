@@ -49,7 +49,7 @@ public class ResumeTestData {
         List<Organization> workOrganizations = new LinkedList<>();
 
         YearMonth start_work1_experience1 = YearMonth.of(2013, 10);
-        YearMonth end_work1_experience1 = null;
+        YearMonth end_work1_experience1 = YearMonth.now();
         Experience work1_experience1 = new Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         List<Experience> work1_experiences = new ArrayList<>();
         work1_experiences.add(work1_experience1);
