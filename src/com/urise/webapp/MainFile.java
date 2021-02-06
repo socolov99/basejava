@@ -10,12 +10,12 @@ public class MainFile {
         findFile(rootFile);
 
     }
-    private static void findFile(File rootFile){
-        for (File file  : Objects.requireNonNull(rootFile.listFiles())) {
-            if (file.isDirectory()){
+
+    private static void findFile(File rootFile) {
+        for (File file : Objects.requireNonNull(rootFile.listFiles())) {
+            if (file.isDirectory()) {
                 findFile(file);
-            }
-            else {
+            } else {
                 System.out.println(file.getName());
             }
         }

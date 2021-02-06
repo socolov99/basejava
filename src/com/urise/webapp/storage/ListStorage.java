@@ -24,22 +24,22 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void updateResume(Resume r, Integer searchKey) {
+    protected void doUpdate(Resume r, Integer searchKey) {
         list.set(searchKey, r);
     }
 
     @Override
-    protected void addResume(Resume r, Integer searchKey) {
+    protected void doSave(Resume r, Integer searchKey) {
         list.add(r);
     }
 
     @Override
-    protected Resume getResume(Integer searchKey) {
+    protected Resume doGet(Integer searchKey) {
         return list.get(searchKey);
     }
 
     @Override
-    protected void removeResume(Integer searchKey) {
+    protected void doDelete(Integer searchKey) {
         list.remove(searchKey.intValue());
     }
 
@@ -49,7 +49,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public List<Resume> getStorageCopyList() {
+    public List<Resume> doCopyAll() {
         return new ArrayList<>(list);
     }
 

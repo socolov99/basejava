@@ -12,42 +12,42 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     private static final Logger LOGGER = Logger.getLogger(AbstractStorage.class.getName());
 
-    protected abstract void addResume(Resume r, SK searchKey);
+    protected abstract void doSave(Resume r, SK searchKey);
 
-    protected abstract Resume getResume(SK searchKey);
+    protected abstract Resume doGet(SK searchKey);
 
-    protected abstract void removeResume(SK searchKey);
+    protected abstract void doDelete(SK searchKey);
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract void updateResume(Resume r, SK searchKey);
+    protected abstract void doUpdate(Resume r, SK searchKey);
 
     protected abstract boolean isExist(SK searchKey);
 
-    protected abstract List<Resume> getStorageCopyList();
+    protected abstract List<Resume> doCopyAll();
 
     public void update(Resume r) {
         LOGGER.info("Update " + r);
         SK searchKey = getExistedSearchKey(r.getUuid());
-        updateResume(r, searchKey);
+        doUpdate(r, searchKey);
     }
 
     public void save(Resume r) {
         LOGGER.info("Save " + r);
         SK searchKey = getNotExistedSearchKey(r.getUuid());
-        addResume(r, searchKey);
+        doSave(r, searchKey);
     }
 
     public void delete(String uuid) {
         LOGGER.info("Delete " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
-        removeResume(searchKey);
+        doDelete(searchKey);
     }
 
     public Resume get(String uuid) {
         LOGGER.info("Get " + uuid);
         SK searchKey = getExistedSearchKey(uuid);
-        return getResume(searchKey);
+        return doGet(searchKey);
     }
 
     private SK getExistedSearchKey(String uuid) {
@@ -71,7 +71,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         LOGGER.info("Get all sorted");
-        List<Resume> list = getStorageCopyList();
+        List<Resume> list = doCopyAll();
         Collections.sort(list);
         return list;
     }
