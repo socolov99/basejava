@@ -1,15 +1,15 @@
 package com.urise.webapp.model;
 
-import java.time.YearMonth;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Experience {
     private final String experience;
-    private final YearMonth startDate;
-    private final YearMonth endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private final String description;
 
-    public Experience(String experience, YearMonth startDate, YearMonth endDate, String description) {
+    public Experience(String experience, LocalDate startDate, LocalDate endDate, String description) {
         Objects.requireNonNull(startDate,"startDate must not be null");
         Objects.requireNonNull(endDate,"endDate must not be null");
         this.experience = experience;
@@ -18,11 +18,11 @@ public class Experience {
         this.description = description;
     }
 
-    public YearMonth getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public YearMonth getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -50,8 +50,8 @@ public class Experience {
     @Override
     public int hashCode() {
         int result = experience != null ? experience.hashCode() : 0;
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + startDate.hashCode();
+        result = 31 * result + endDate.hashCode();
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
