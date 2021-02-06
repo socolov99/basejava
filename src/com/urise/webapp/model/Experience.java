@@ -7,13 +7,13 @@ public class Experience {
     private final String experience;
     private final YearMonth startDate;
     private final YearMonth endDate;
-    private final String experienceDescription;
+    private final String description;
 
-    public Experience(String experience, YearMonth startDate, YearMonth endDate, String experienceDescription) {
+    public Experience(String experience, YearMonth startDate, YearMonth endDate, String description) {
         this.experience = experience;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.experienceDescription = experienceDescription;
+        this.description = description;
     }
 
     public YearMonth getStartDate() {
@@ -28,8 +28,8 @@ public class Experience {
         return experience;
     }
 
-    public String getExperienceDescription() {
-        return experienceDescription;
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Experience {
         if (!Objects.equals(experience, that.experience)) return false;
         if (!Objects.equals(startDate, that.startDate)) return false;
         if (!Objects.equals(endDate, that.endDate)) return false;
-        return Objects.equals(experienceDescription, that.experienceDescription);
+        return Objects.equals(description, that.description);
     }
 
     @Override
@@ -50,12 +50,12 @@ public class Experience {
         int result = experience != null ? experience.hashCode() : 0;
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + (experienceDescription != null ? experienceDescription.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return startDate + " – " + endDate + ".\t\t" + experience + "\n" + experienceDescription;
+        return startDate + " – " + endDate + ".\t\t" + experience + "\n" + description;
     }
 }

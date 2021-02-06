@@ -3,10 +3,10 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class BulletedListSection extends Section {
+public class BulletedListAbstractSection extends AbstractSection {
     private final List<String> bulletedList;
 
-    public BulletedListSection(List<String> bulletedList) {
+    public BulletedListAbstractSection(List<String> bulletedList) {
         this.bulletedList = bulletedList;
     }
 
@@ -24,7 +24,7 @@ public class BulletedListSection extends Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BulletedListSection that = (BulletedListSection) o;
+        BulletedListAbstractSection that = (BulletedListAbstractSection) o;
 
         return Objects.equals(bulletedList, that.bulletedList);
     }
