@@ -3,10 +3,11 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class BulletedListAbstractSection extends AbstractSection {
+public class BulletedListSection extends AbstractSection {
     private final List<String> bulletedList;
 
-    public BulletedListAbstractSection(List<String> bulletedList) {
+    public BulletedListSection(List<String> bulletedList) {
+        Objects.requireNonNull(bulletedList,"bulletedList must not be null");
         this.bulletedList = bulletedList;
     }
 
@@ -24,7 +25,7 @@ public class BulletedListAbstractSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BulletedListAbstractSection that = (BulletedListAbstractSection) o;
+        BulletedListSection that = (BulletedListSection) o;
 
         return Objects.equals(bulletedList, that.bulletedList);
     }

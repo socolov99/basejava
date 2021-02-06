@@ -2,10 +2,11 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class SingleLineAbstractSection extends AbstractSection {
+public class SingleLineSection extends AbstractSection {
     private final String singleLine;
 
-    public SingleLineAbstractSection(String singleLine) {
+    public SingleLineSection(String singleLine) {
+        Objects.requireNonNull(singleLine, "singleLine must not be null");
         this.singleLine = singleLine;
     }
 
@@ -18,7 +19,7 @@ public class SingleLineAbstractSection extends AbstractSection {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        SingleLineAbstractSection that = (SingleLineAbstractSection) o;
+        SingleLineSection that = (SingleLineSection) o;
 
         return Objects.equals(singleLine, that.singleLine);
     }
