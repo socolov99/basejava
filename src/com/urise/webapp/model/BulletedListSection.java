@@ -1,13 +1,18 @@
 package com.urise.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class BulletedListSection extends AbstractSection {
     private final List<String> bulletedList;
 
+    public BulletedListSection(String... strings) {
+        this(Arrays.asList(strings));
+    }
+
     public BulletedListSection(List<String> bulletedList) {
-        Objects.requireNonNull(bulletedList,"bulletedList must not be null");
+        Objects.requireNonNull(bulletedList, "bulletedList must not be null");
         this.bulletedList = bulletedList;
     }
 
