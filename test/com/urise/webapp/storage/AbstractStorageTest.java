@@ -9,7 +9,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static com.urise.webapp.ResumeTestData.createResume;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
     protected Storage storage;
@@ -25,10 +27,10 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Asap");
-        RESUME_2 = new Resume(UUID_2, "John");
-        RESUME_3 = new Resume(UUID_3, "John");
-        RESUME_4 = new Resume(UUID_4, "Jack");
+        RESUME_1 = createResume(UUID_1, "Asap");
+        RESUME_2 = createResume(UUID_2, "John");
+        RESUME_3 = createResume(UUID_3, "John");
+        RESUME_4 = createResume(UUID_4, "Jack");
     }
 
     protected AbstractStorageTest(Storage storage) {

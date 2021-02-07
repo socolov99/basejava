@@ -8,8 +8,8 @@ import java.time.Month;
 import java.util.*;
 
 public class ResumeTestData {
-    public static void main(String[] args) {
-        Resume resume = new Resume("uuid1", "Grigory Kislin");
+    public static Resume createResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
 
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
@@ -104,6 +104,12 @@ public class ResumeTestData {
 
         resume.setContacts(contacts);
         resume.setSections(sections);
+
+        return resume;
+    }
+
+    public static void main(String[] args) {
+        Resume resume = createResume("uuid1", "Grigory Kislin");
 
         System.out.println(resume.getFullName());
         System.out.println();
