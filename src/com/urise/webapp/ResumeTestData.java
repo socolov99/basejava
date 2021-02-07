@@ -52,15 +52,15 @@ public class ResumeTestData {
 
         LocalDate start_work1_experience1 = DateUtil.of(2013, Month.OCTOBER);
         LocalDate end_work1_experience1 = LocalDate.now();
-        Experience work1_experience1 = new Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        List<Experience> work1_experiences = new ArrayList<>();
+        Organization.Experience work1_experience1 = new Organization.Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
+        List<Organization.Experience> work1_experiences = new ArrayList<>();
         work1_experiences.add(work1_experience1);
         Organization work1 = new Organization("Java Online Projects", "url1241241", work1_experiences);
 
         LocalDate start_work2_experience1 = DateUtil.of(2012, Month.APRIL);
         LocalDate end_work2_experience1 = DateUtil.of(2014, Month.OCTOBER);
-        Experience work2_experience1 = new Experience("Java архитектор", start_work2_experience1, end_work2_experience1, "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        List<Experience> work2_experiences = new ArrayList<>();
+        Organization.Experience work2_experience1 = new Organization.Experience("Java архитектор", start_work2_experience1, end_work2_experience1, "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
+        List<Organization.Experience> work2_experiences = new ArrayList<>();
         work2_experiences.add(work2_experience1);
         Organization work2 = new Organization("RIT Center", "url1924240", work2_experiences);
 
@@ -73,18 +73,18 @@ public class ResumeTestData {
 
         LocalDate start_education1_experience1 = DateUtil.of(2013, Month.MARCH);
         LocalDate end_education1_experience1 = DateUtil.of(2013, Month.MAY);
-        Experience education1_experience1 = new Experience("\"Functional Programming Principles in Scala\" by Martin Odersky\n", start_education1_experience1, end_education1_experience1, "");
-        List<Experience> education1_experiences = new ArrayList<>();
+        Organization.Experience education1_experience1 = new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky\n", start_education1_experience1, end_education1_experience1, "");
+        List<Organization.Experience> education1_experiences = new ArrayList<>();
         education1_experiences.add(education1_experience1);
         Organization education1 = new Organization("Coursera", "url2358", education1_experiences);
 
         LocalDate start_education2_experience1 = DateUtil.of(1993, Month.SEPTEMBER);
         LocalDate end_education2_experience1 = DateUtil.of(1996, Month.JULY);
-        Experience education2_experience1 = new Experience("Аспирантура (программист С, С++)", start_education2_experience1, end_education2_experience1, "");
+        Organization.Experience education2_experience1 = new Organization.Experience("Аспирантура (программист С, С++)", start_education2_experience1, end_education2_experience1, "");
         LocalDate start_education2_experience2 = DateUtil.of(1987, Month.SEPTEMBER);
         LocalDate end_education2_experience2 = DateUtil.of(1993, Month.JULY);
-        Experience education2_experience2 = new Experience("Инженер (программист Fortran, C)", start_education2_experience2, end_education2_experience2, "");
-        List<Experience> education2_experiences = new ArrayList<>();
+        Organization.Experience education2_experience2 = new Organization.Experience("Инженер (программист Fortran, C)", start_education2_experience2, end_education2_experience2, "");
+        List<Organization.Experience> education2_experiences = new ArrayList<>();
         education2_experiences.add(education2_experience1);
         education2_experiences.add(education2_experience2);
         Organization education2 = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "url232410", education2_experiences);
