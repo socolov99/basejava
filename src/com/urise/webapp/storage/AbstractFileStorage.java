@@ -4,6 +4,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -68,8 +69,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        List<Resume> list = null;
-        for (File file : Objects.requireNonNull(directory.listFiles(), "directory must not be null")) {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error", null);
+        }
+        List<Resume> list = new ArrayList<>(files.length);
+        for (File file : files) {
             list.add(doGet(file));
         }
         return list;
@@ -92,7 +97,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         return files.length;
     }
 
-    protected abstract void doWrite(Resume r, OutputStream file) throws IOException;
+    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
-    protected abstract Resume doRead(InputStream file) throws IOException;
+    protected abstract Resume doRead(InputStream is) throws IOException;
 }

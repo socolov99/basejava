@@ -1,10 +1,13 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private final String name;
     private final List<Experience> experienceList;
@@ -49,7 +52,9 @@ public class Organization {
         return name + "\n" + experienceList + "\n";
     }
 
-    public static class Experience {
+    public static class Experience implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private final String experience;
         private final LocalDate startDate;
         private final LocalDate endDate;
