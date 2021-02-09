@@ -1,25 +1,24 @@
 package com.urise.webapp;
 
 import java.io.File;
-import java.util.Objects;
 
 public class MainFile {
-
     public static void main(String[] args) {
-        String filePath = "src/com/urise/webapp";
-        File rootFile = new File(filePath);
-        findFile(rootFile);
+        String filePath = "./";
+        File dir = new File(filePath);
+        printDirectoryDeeply(dir, "");
     }
 
-    private static void findFile(File rootFile) {
-        for (File file : Objects.requireNonNull(rootFile.listFiles())) {
-            if (file.isDirectory()) {
-                System.out.println("directory: "+file.getName());
-                findFile(file);
-            } else {
-                System.out.println("file: "+file.getName());
-
-
+    public static void printDirectoryDeeply(File dir, String offset) {
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println(offset + "file: " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println(offset + "dir: " + file.getName());
+                    printDirectoryDeeply(file, offset + "\t");
+                }
             }
         }
     }
