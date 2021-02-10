@@ -3,3 +3,6 @@ out
 *.iml
 log
 /lib/
+/storage/uuid1
+/storage/uuid2
+/storage/uuid3
