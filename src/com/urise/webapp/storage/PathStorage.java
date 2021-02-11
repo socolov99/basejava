@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private final ObjectStreamSerializer objectStreamSerializer;
+    private final SerializeStrategy serializeStrategy;
 
-    protected PathStorage(String dir, ObjectStreamSerializer objectStreamSerializer) {
+    protected PathStorage(String dir, SerializeStrategy serializeStrategy) {
         directory = Paths.get(dir);
-        this.objectStreamSerializer = objectStreamSerializer;
+        this.serializeStrategy = serializeStrategy;
         Objects.requireNonNull(directory, "directory must not be null");
-        Objects.requireNonNull(objectStreamSerializer, "objectStreamSerializer must not be null");
+        Objects.requireNonNull(serializeStrategy, "serializeStrategy must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + "is not directory or is not writable");
         }
@@ -38,7 +38,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return objectStreamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return serializeStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path read error", path.getFileName().toString(), e);
         }
@@ -61,7 +61,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Resume r, Path path) {
         try {
-            objectStreamSerializer.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
+            serializeStrategy.doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path write error", r.getUuid(), e);
         }
