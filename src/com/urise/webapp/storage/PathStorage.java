@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
@@ -74,28 +75,24 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doCopyAll() {
-        try {
-            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Directory copy all exception", null, e);
-        }
+        return getPathsFromDirectory(directory).map(this::doGet).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        getPathsFromDirectory(directory).forEach(this::doDelete);
     }
 
     @Override
     public int size() {
+        return (int) getPathsFromDirectory(directory).count();
+    }
+
+    private Stream<Path> getPathsFromDirectory(Path directory) {
         try {
-            return (int) Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Path size error", null, e);
+            throw new StorageException("Directory read error", e);
         }
     }
 }
