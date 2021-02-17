@@ -1,16 +1,25 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private final String name;
-    private final List<Experience> experienceList;
+    private Link homePage;
+    private String name;
+    private List<Experience> experienceList;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, List<Experience> experienceList) {
         Objects.requireNonNull(name, "name must not be null");
@@ -52,13 +61,19 @@ public class Organization implements Serializable {
         return name + "\n" + experienceList + "\n";
     }
 
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Experience implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private final String experience;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String description;
+        private String experience;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String description;
+
+        public Experience() {
+        }
 
         public Experience(String experience, LocalDate startDate, LocalDate endDate, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");

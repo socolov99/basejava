@@ -5,7 +5,10 @@ import java.util.Objects;
 public class SingleLineSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
-    private final String singleLine;
+    private String singleLine;
+
+    public SingleLineSection() {
+    }
 
     public SingleLineSection(String singleLine) {
         Objects.requireNonNull(singleLine, "singleLine must not be null");
