@@ -25,6 +25,10 @@ public class BulletedListSection extends AbstractSection {
         return bulletedList;
     }
 
+    public void setBulletedList(List<String> bulletedList) {
+        this.bulletedList = bulletedList;
+    }
+
     @Override
     public String toString() {
         return bulletedList.toString();

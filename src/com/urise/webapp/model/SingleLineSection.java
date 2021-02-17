@@ -19,6 +19,10 @@ public class SingleLineSection extends AbstractSection {
         return singleLine;
     }
 
+    public void setSingleLine(String singleLine) {
+        this.singleLine = singleLine;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

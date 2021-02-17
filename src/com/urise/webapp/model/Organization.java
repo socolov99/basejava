@@ -32,6 +32,14 @@ public class Organization implements Serializable {
         return name;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
     public List<Experience> getExperienceList() {
         return experienceList;
     }
@@ -98,6 +106,22 @@ public class Organization implements Serializable {
 
         public String getDescription() {
             return description;
+        }
+
+        public void setExperience(String experience) {
+            this.experience = experience;
+        }
+
+        public void setStartDate(LocalDate startDate) {
+            this.startDate = startDate;
+        }
+
+        public void setEndDate(LocalDate endDate) {
+            this.endDate = endDate;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         @Override
