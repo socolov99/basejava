@@ -57,6 +57,22 @@ public class Resume implements Comparable<Resume>, Serializable {
         return sections.get(sectionType);
     }
 
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, AbstractSection section) {
+        sections.put(type, section);
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
