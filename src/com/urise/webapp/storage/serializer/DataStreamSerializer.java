@@ -23,7 +23,8 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getValue());
             }
 
-            dos.writeInt(contacts.size());
+            Map<SectionType, AbstractSection> sections = r.getSections();
+            dos.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> entry : r.getSections().entrySet()) {
                 SectionType sectionType = entry.getKey();
                 AbstractSection section = entry.getValue();
@@ -31,10 +32,10 @@ public class DataStreamSerializer implements StreamSerializer {
                 if (sectionType.equals(SectionType.OBJECTIVE) || sectionType.equals(SectionType.PERSONAL)) {
                     dos.writeUTF(((SingleLineSection) section).getSingleLine());
                 } else if (sectionType.equals(SectionType.ACHIEVEMENT) || sectionType.equals(SectionType.QUALIFICATIONS)) {
-                    List<String> list;
-                    list = ((BulletedListSection) section).getBulletedList();
-                    dos.writeInt(list.size());
-                    for (String s : list) {
+                    List<String> bulletedList;
+                    bulletedList = ((BulletedListSection) section).getBulletedList();
+                    dos.writeInt(bulletedList.size());
+                    for (String s : bulletedList) {
                         dos.writeUTF(s);
                     }
                 } else if (sectionType.equals(SectionType.EXPERIENCE) || sectionType.equals(SectionType.EDUCATION)) {
@@ -44,8 +45,7 @@ public class DataStreamSerializer implements StreamSerializer {
                     for (Organization o : list) {
                         dos.writeUTF(o.getHomePage().getUrl());
                         dos.writeUTF(o.getName());
-                        List<Organization.Experience> experienceList;
-                        experienceList = o.getExperienceList();
+                        List<Organization.Experience> experienceList = o.getExperienceList();
                         dos.writeInt(experienceList.size());
                         for (Organization.Experience experience : experienceList) {
                             dos.writeUTF(experience.getExperience());
@@ -83,12 +83,12 @@ public class DataStreamSerializer implements StreamSerializer {
                 if (sectionType.equals(SectionType.OBJECTIVE) || sectionType.equals(SectionType.PERSONAL)) {
                     resume.addSection(sectionType, new SingleLineSection(dis.readUTF()));
                 } else if (sectionType.equals(SectionType.ACHIEVEMENT) || sectionType.equals(SectionType.QUALIFICATIONS)) {
-                    int listSize = dis.readInt();
-                    List<String> list = new ArrayList<>();
-                    for (int j = 0; j < listSize; j++) {
-                        list.add(dis.readUTF());
+                    int bulletedListSize = dis.readInt();
+                    List<String> bulletedList = new ArrayList<>();
+                    for (int j = 0; j < bulletedListSize; j++) {
+                        bulletedList.add(dis.readUTF());
                     }
-                    resume.addSection(sectionType, new BulletedListSection(list));
+                    resume.addSection(sectionType, new BulletedListSection(bulletedList));
                 } else if (sectionType.equals(SectionType.EXPERIENCE) || sectionType.equals(SectionType.EDUCATION)) {
                     int listSize = dis.readInt();
                     List<Organization> list = new ArrayList<>();
@@ -110,14 +110,11 @@ public class DataStreamSerializer implements StreamSerializer {
                                     LocalDate.of(endDateYear, endDateMonth, endDateDay), description));
                         }
                         list.add(new Organization(organizationName, linkUrl, experienceList));
-
                     }
                     resume.addSection(sectionType, new OrganizationListSection(list));
                 } else {
                     throw new StorageException("Not existed sectionType");
                 }
-
-
             }
             return resume;
         }
