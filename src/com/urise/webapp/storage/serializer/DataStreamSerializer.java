@@ -29,25 +29,21 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> dos.writeUTF(((SingleLineSection) section).getSingleLine());
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        writeWithException(dos, ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
-                    }
-                    case EDUCATION, EXPERIENCE -> {
-                        writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), organization -> {
-                            dos.writeUTF(organization.getHomePage().getUrl());
-                            dos.writeUTF(organization.getName());
-                            writeWithException(dos, organization.getExperienceList(), experience -> {
-                                dos.writeUTF(experience.getExperience());
-                                dos.writeInt(experience.getStartDate().getYear());
-                                dos.writeInt(experience.getStartDate().getMonth().getValue());
-                                dos.writeInt(experience.getStartDate().getDayOfMonth());
-                                dos.writeInt(experience.getEndDate().getYear());
-                                dos.writeInt(experience.getEndDate().getMonth().getValue());
-                                dos.writeInt(experience.getEndDate().getDayOfMonth());
-                                dos.writeUTF(experience.getDescription());
-                            });
+                    case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(dos, ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
+                    case EDUCATION, EXPERIENCE -> writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), organization -> {
+                        dos.writeUTF(organization.getName());
+                        dos.writeUTF(organization.getHomePage().getUrl());
+                        writeWithException(dos, organization.getExperienceList(), experience -> {
+                            dos.writeUTF(experience.getExperience());
+                            dos.writeInt(experience.getStartDate().getYear());
+                            dos.writeInt(experience.getStartDate().getMonth().getValue());
+                            dos.writeInt(experience.getStartDate().getDayOfMonth());
+                            dos.writeInt(experience.getEndDate().getYear());
+                            dos.writeInt(experience.getEndDate().getMonth().getValue());
+                            dos.writeInt(experience.getEndDate().getDayOfMonth());
+                            dos.writeUTF(experience.getDescription());
                         });
-                    }
+                    });
                     default -> throw new StorageException("Not existed sectionType");
                 }
             });
@@ -61,51 +57,21 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int contactsSize = dis.readInt();
-            for (int i = 0; i < contactsSize; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
 
-            int sectionsSize = dis.readInt();
-            for (int i = 0; i < sectionsSize; i++) {
+            readWithException(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readWithException(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> resume.addSection(sectionType, new SingleLineSection(dis.readUTF()));
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        int bulletedListSize = dis.readInt();
-                        List<String> bulletedList = new ArrayList<>();
-                        for (int j = 0; j < bulletedListSize; j++) {
-                            bulletedList.add(dis.readUTF());
-                        }
-                        resume.addSection(sectionType, new BulletedListSection(bulletedList));
-                    }
-                    case EXPERIENCE, EDUCATION -> {
-                        int listSize = dis.readInt();
-                        List<Organization> list = new ArrayList<>();
-                        for (int j = 0; j < listSize; j++) {
-                            String linkUrl = dis.readUTF();
-                            String organizationName = dis.readUTF();
-                            int experienceListSize = dis.readInt();
-                            List<Organization.Experience> experienceList = new ArrayList<>();
-                            for (int k = 0; k < experienceListSize; k++) {
-                                String experience = dis.readUTF();
-                                int startDateYear = dis.readInt();
-                                int startDateMonth = dis.readInt();
-                                int startDateDay = dis.readInt();
-                                int endDateYear = dis.readInt();
-                                int endDateMonth = dis.readInt();
-                                int endDateDay = dis.readInt();
-                                String description = dis.readUTF();
-                                experienceList.add(new Organization.Experience(experience, LocalDate.of(startDateYear, startDateMonth, startDateDay),
-                                        LocalDate.of(endDateYear, endDateMonth, endDateDay), description));
-                            }
-                            list.add(new Organization(organizationName, linkUrl, experienceList));
-                        }
-                        resume.addSection(sectionType, new OrganizationListSection(list));
-                    }
+                    case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(sectionType, new BulletedListSection(readList(dis, dis::readUTF)));
+                    case EXPERIENCE, EDUCATION -> resume.addSection(sectionType, new OrganizationListSection(readList(dis, () ->
+                            new Organization(dis.readUTF(), dis.readUTF(), readList(dis, () ->
+                                    new Organization.Experience(dis.readUTF(), LocalDate.of(dis.readInt(), dis.readInt(),
+                                            dis.readInt()), LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()), dis.readUTF())
+                            )))));
                     default -> throw new StorageException("Not existed sectionType");
                 }
-            }
+            });
             return resume;
         }
     }
@@ -118,6 +84,30 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(collection.size());
         for (T element : collection) {
             writer.writeElement(element);
+        }
+    }
+
+    private interface ActionWithElement {
+        void action() throws IOException;
+    }
+
+    private interface Reader<T> {
+        T readElement() throws IOException;
+    }
+
+    private <T> List<T> readList(DataInputStream dis, Reader<T> reader) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(reader.readElement());
+        }
+        return list;
+    }
+
+    private void readWithException(DataInputStream dis, ActionWithElement actionWithElement) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            actionWithElement.action();
         }
     }
 }
