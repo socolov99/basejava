@@ -40,6 +40,10 @@ public class Organization implements Serializable {
         return homePage;
     }
 
+    public void setHomePage(String url) {
+        this.homePage = new Link(name,url);
+    }
+
     public List<Experience> getExperienceList() {
         return experienceList;
     }
@@ -128,22 +132,13 @@ public class Organization implements Serializable {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-
             Experience that = (Experience) o;
-
-            if (!Objects.equals(experience, that.experience)) return false;
-            if (!Objects.equals(startDate, that.startDate)) return false;
-            if (!Objects.equals(endDate, that.endDate)) return false;
-            return Objects.equals(description, that.description);
+            return experience.equals(that.experience) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && Objects.equals(description, that.description);
         }
 
         @Override
         public int hashCode() {
-            int result = experience != null ? experience.hashCode() : 0;
-            result = 31 * result + startDate.hashCode();
-            result = 31 * result + endDate.hashCode();
-            result = 31 * result + (description != null ? description.hashCode() : 0);
-            return result;
+            return Objects.hash(experience, startDate, endDate, description);
         }
 
         @Override

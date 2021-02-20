@@ -52,10 +52,10 @@ public class ResumeTestData {
 
         LocalDate start_work1_experience1 = DateUtil.of(2013, Month.OCTOBER);
         LocalDate end_work1_experience1 = LocalDate.now();
-        Organization.Experience work1_experience1 = new Organization.Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
+        Organization.Experience work1_experience1 = new Organization.Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, null);
         List<Organization.Experience> work1_experiences = new ArrayList<>();
         work1_experiences.add(work1_experience1);
-        Organization work1 = new Organization("Java Online Projects", "url1241241", work1_experiences);
+        Organization work1 = new Organization("Java Online Projects", null, work1_experiences);
 
         LocalDate start_work2_experience1 = DateUtil.of(2012, Month.APRIL);
         LocalDate end_work2_experience1 = DateUtil.of(2014, Month.OCTOBER);

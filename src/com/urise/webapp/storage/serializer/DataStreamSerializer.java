@@ -32,16 +32,20 @@ public class DataStreamSerializer implements StreamSerializer {
                     case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(dos, ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
                     case EDUCATION, EXPERIENCE -> writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), organization -> {
                         dos.writeUTF(organization.getName());
-                        dos.writeUTF(organization.getHomePage().getUrl());
+                        if (organization.getHomePage().getUrl() == null) {
+                            dos.writeUTF(" ");
+                        } else {
+                            dos.writeUTF(organization.getHomePage().getUrl());
+                        }
                         writeWithException(dos, organization.getExperienceList(), experience -> {
                             dos.writeUTF(experience.getExperience());
-                            dos.writeInt(experience.getStartDate().getYear());
-                            dos.writeInt(experience.getStartDate().getMonth().getValue());
-                            dos.writeInt(experience.getStartDate().getDayOfMonth());
-                            dos.writeInt(experience.getEndDate().getYear());
-                            dos.writeInt(experience.getEndDate().getMonth().getValue());
-                            dos.writeInt(experience.getEndDate().getDayOfMonth());
-                            dos.writeUTF(experience.getDescription());
+                            writeLocalDate(dos, experience.getStartDate());
+                            writeLocalDate(dos, experience.getEndDate());
+                            if (experience.getDescription() == null) {
+                                dos.writeUTF(" ");
+                            } else {
+                                dos.writeUTF(experience.getDescription());
+                            }
                         });
                     });
                     default -> throw new StorageException("Not existed sectionType");
@@ -49,6 +53,16 @@ public class DataStreamSerializer implements StreamSerializer {
             });
         }
 
+    }
+
+    private void writeLocalDate(DataOutputStream dos, LocalDate localDate) throws IOException {
+        dos.writeInt(localDate.getYear());
+        dos.writeInt(localDate.getMonth().getValue());
+        dos.writeInt(localDate.getDayOfMonth());
+    }
+
+    private LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt());
     }
 
     @Override
@@ -64,11 +78,20 @@ public class DataStreamSerializer implements StreamSerializer {
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> resume.addSection(sectionType, new SingleLineSection(dis.readUTF()));
                     case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(sectionType, new BulletedListSection(readList(dis, dis::readUTF)));
-                    case EXPERIENCE, EDUCATION -> resume.addSection(sectionType, new OrganizationListSection(readList(dis, () ->
-                            new Organization(dis.readUTF(), dis.readUTF(), readList(dis, () ->
-                                    new Organization.Experience(dis.readUTF(), LocalDate.of(dis.readInt(), dis.readInt(),
-                                            dis.readInt()), LocalDate.of(dis.readInt(), dis.readInt(), dis.readInt()), dis.readUTF())
-                            )))));
+                    case EXPERIENCE, EDUCATION -> resume.addSection(sectionType, new OrganizationListSection(readList(dis, () -> {
+                        Organization organization = new Organization(dis.readUTF(), dis.readUTF(), readList(dis, () -> {
+                                    Organization.Experience experience = new Organization.Experience(dis.readUTF(), readLocalDate(dis), readLocalDate(dis), dis.readUTF());
+                                    if (experience.getDescription().equals(" ")) {
+                                        experience.setDescription(null);
+                                    }
+                                    return experience;
+                                }
+                        ));
+                        if (organization.getHomePage().getUrl().equals(" ")) {
+                            organization.setHomePage(null);
+                        }
+                        return organization;
+                    })));
                     default -> throw new StorageException("Not existed sectionType");
                 }
             });
