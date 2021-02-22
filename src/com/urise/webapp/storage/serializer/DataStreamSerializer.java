@@ -73,18 +73,17 @@ public class DataStreamSerializer implements StreamSerializer {
                     case OBJECTIVE, PERSONAL -> resume.addSection(sectionType, new SingleLineSection(dis.readUTF()));
                     case ACHIEVEMENT, QUALIFICATIONS -> resume.addSection(sectionType, new BulletedListSection(readList(dis, dis::readUTF)));
                     case EXPERIENCE, EDUCATION -> resume.addSection(sectionType, new OrganizationListSection(readList(dis, () -> {
-                        Organization organization = new Organization(dis.readUTF(), dis.readUTF(), readList(dis, () -> {
-                                    Organization.Experience experience = new Organization.Experience(dis.readUTF(), readLocalDate(dis), readLocalDate(dis), dis.readUTF());
-                                    if (experience.getDescription().equals(" ")) {
-                                        experience.setDescription(null);
-                                    }
-                                    return experience;
+                        String name = dis.readUTF();
+                        String url = dis.readUTF();
+                        List<Organization.Experience> experiences = readList(dis, () -> {
+                                    String experienceName = dis.readUTF();
+                                    LocalDate startDate = readLocalDate(dis);
+                                    LocalDate endDate = readLocalDate(dis);
+                                    String description = dis.readUTF();
+                                    return new Organization.Experience(experienceName, startDate, endDate, description.equals(" ") ? null : description);
                                 }
-                        ));
-                        if (organization.getHomePage().getUrl().equals(" ")) {
-                            organization.setHomePage(null);
-                        }
-                        return organization;
+                        );
+                        return new Organization(name, url.equals(" ") ? null : url, experiences);
                     })));
                     default -> throw new StorageException("Not existed sectionType");
                 }
