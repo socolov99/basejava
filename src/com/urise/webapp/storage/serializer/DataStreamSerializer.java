@@ -32,20 +32,14 @@ public class DataStreamSerializer implements StreamSerializer {
                     case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(dos, ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
                     case EDUCATION, EXPERIENCE -> writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), organization -> {
                         dos.writeUTF(organization.getName());
-                        if (organization.getHomePage().getUrl() == null) {
-                            dos.writeUTF(" ");
-                        } else {
-                            dos.writeUTF(organization.getHomePage().getUrl());
-                        }
+                        String url = organization.getHomePage().getUrl();
+                        dos.writeUTF(url == null ? " " : url);
                         writeWithException(dos, organization.getExperienceList(), experience -> {
                             dos.writeUTF(experience.getExperience());
                             writeLocalDate(dos, experience.getStartDate());
                             writeLocalDate(dos, experience.getEndDate());
-                            if (experience.getDescription() == null) {
-                                dos.writeUTF(" ");
-                            } else {
-                                dos.writeUTF(experience.getDescription());
-                            }
+                            String description = experience.getDescription();
+                            dos.writeUTF(description == null ? " " : description);
                         });
                     });
                     default -> throw new StorageException("Not existed sectionType");
