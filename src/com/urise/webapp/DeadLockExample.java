@@ -1,7 +1,5 @@
 package com.urise.webapp;
 
-import java.util.Objects;
-
 public class DeadLockExample {
     private static final String LOCK_1 = "LOCK_1";
     private static final String LOCK_2 = "LOCK_2";
