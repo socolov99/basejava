@@ -24,10 +24,10 @@ public class DeadLockExample {
     public static void main(String[] args) throws InterruptedException {
 
         Thread thread0 = new Thread(() -> {
-            threadRun(LOCK_1,LOCK_2);
+            threadRun(LOCK_1, LOCK_2);
         });
         Thread thread1 = new Thread(() -> {
-            threadRun(LOCK_2,LOCK_1);
+            threadRun(LOCK_2, LOCK_1);
         });
 
         thread0.start();
