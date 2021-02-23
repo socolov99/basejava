@@ -1,50 +1,41 @@
 package com.urise.webapp;
 
 public class DeadLockExample {
-    private static final Object LOCK_1 = new Object();
-    private static final Object LOCK_2 = new Object();
+    private static final String LOCK_1 = "LOCK_1";
+    private static final String LOCK_2 = "LOCK_2";
+
+    private static void threadRun(String lock1, String lock2) {
+        System.out.println(Thread.currentThread().getName() + " is waiting for " + lock1 + " holding");
+        synchronized (lock1) {
+            System.out.println(Thread.currentThread().getName() + " captured  " + lock1);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + " is waiting for " + lock2 + " holding");
+            synchronized (lock2) {
+                //Can't come here
+                System.out.println(Thread.currentThread().getName() + " captured  " + lock2);
+            }
+        }
+    }
 
     public static void main(String[] args) throws InterruptedException {
 
-        Thread thread1 = new Thread(() -> {
-            System.out.println("thread1 is waiting for LOCK1 holding");
-            synchronized (LOCK_1) {
-                System.out.println("thread1 captured  LOCK1");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("thread1 is waiting for LOCK2 holding");
-                synchronized (LOCK_2) {
-                    //Can't come here
-                    System.out.println("thread1 captured  LOCK2");
-                }
-            }
+        Thread thread0 = new Thread(() -> {
+            threadRun(LOCK_1,LOCK_2);
         });
-        Thread thread2 = new Thread(() -> {
-            System.out.println("thread2 is waiting for LOCK2 holding");
-            synchronized (LOCK_2) {
-                System.out.println("thread2 captured  LOCK2");
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                System.out.println("thread2 is waiting for LOCK1 holding");
-                synchronized (LOCK_1) {
-                    //Can't come here
-                    System.out.println("thread2 captured  LOCK1");
-                }
-            }
+        Thread thread1 = new Thread(() -> {
+            threadRun(LOCK_2,LOCK_1);
         });
 
+        thread0.start();
         thread1.start();
-        thread2.start();
 
         Thread.sleep(1000);
 
-        if (thread1.isAlive() && thread2.isAlive()) {
+        if (thread0.isAlive() && thread1.isAlive()) {
             System.out.println("It's deadlock");
         }
     }
