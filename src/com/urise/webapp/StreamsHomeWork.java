@@ -15,8 +15,7 @@ public class StreamsHomeWork {
     }
 
     private static int minValue(int[] values) {
-        IntStream intStream = IntStream.of(values);
-        return intStream.distinct().sorted().reduce(0, (left, right) -> left * 10 + right);
+        return IntStream.of(values).distinct().sorted().reduce(0, (left, right) -> left * 10 + right);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
