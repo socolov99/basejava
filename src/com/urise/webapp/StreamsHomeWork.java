@@ -10,17 +10,17 @@ public class StreamsHomeWork {
         int[] values = {2, 4, 2, 6, 3, 4, 8, 6, 5, 8, 4, 2, 4, 6, 9, 5, 6, 9, 1};
         System.out.println(minValue(values));
 
-        List<Integer> integers = Arrays.asList(1, 4, 2, 3, 1, 1);
+        List<Integer> integers = Arrays.asList(1, 4, 2, 3, 1, 3);
         System.out.println(oddOrEven(integers));
     }
 
     private static int minValue(int[] values) {
-        return Arrays.stream(IntStream.of(values).distinct().sorted().toArray()).reduce(0, (left, right) -> left * 10 + right);
+        IntStream intStream = IntStream.of(values);
+        return intStream.distinct().sorted().reduce(0, (left, right) -> left * 10 + right);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        return integers.stream().reduce(0, Integer::sum) % 2 == 0 ?
-                integers.stream().filter(x -> x % 2 != 0).collect(Collectors.toList()) :
-                integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList());
+        int sum = integers.stream().reduce(0, Integer::sum);
+        return integers.stream().filter(x -> x % 2 != sum % 2).collect(Collectors.toList());
     }
 }
