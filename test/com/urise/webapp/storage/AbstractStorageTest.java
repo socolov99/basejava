@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
@@ -11,17 +12,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.urise.webapp.ResumeTestData.createResume;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("/Users/kirillsokolov/Desktop/course_basejava/basejava/storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected Storage storage;
 
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_1 = "7e119061-3cd7-4f06-9c81-23d80c88201a";
+    private static final String UUID_2 = "9b67449e-c8e7-476d-957a-d701b345d5f7";
+    private static final String UUID_3 = "fbf8aa36-e830-4b20-88ac-c2da32d0f00f";
+    private static final String UUID_4 = "b5171e93-d6df-45c4-8600-a885837b63de";
 
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
@@ -30,7 +31,7 @@ public abstract class AbstractStorageTest {
 
     static {
         RESUME_1 = createResume(UUID_1, "Asap");
-        RESUME_2 = createResume(UUID_2, "John");
+        RESUME_2 = createResume(UUID_2, "Jack");
         RESUME_3 = createResume(UUID_3, "John");
         RESUME_4 = createResume(UUID_4, "Jack");
     }
