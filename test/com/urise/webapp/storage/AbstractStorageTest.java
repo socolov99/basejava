@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.createResume;
 import static org.junit.Assert.assertEquals;
@@ -19,10 +20,10 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = "7e119061-3cd7-4f06-9c81-23d80c88201a";
-    private static final String UUID_2 = "9b67449e-c8e7-476d-957a-d701b345d5f7";
-    private static final String UUID_3 = "fbf8aa36-e830-4b20-88ac-c2da32d0f00f";
-    private static final String UUID_4 = "b5171e93-d6df-45c4-8600-a885837b63de";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
 
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
@@ -31,8 +32,8 @@ public abstract class AbstractStorageTest {
 
     static {
         RESUME_1 = createResume(UUID_1, "Asap");
-        RESUME_2 = createResume(UUID_2, "Jack");
-        RESUME_3 = createResume(UUID_3, "John");
+        RESUME_2 = createResume(UUID_2, "John");
+        RESUME_3 = createResume(UUID_3, "Jack");
         RESUME_4 = createResume(UUID_4, "Jack");
     }
 
@@ -44,8 +45,8 @@ public abstract class AbstractStorageTest {
     public void setUp() throws Exception {
         storage.clear();
         storage.save(RESUME_1);
-        storage.save(RESUME_3);
         storage.save(RESUME_2);
+        storage.save(RESUME_3);
     }
 
     @Test
@@ -75,7 +76,7 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() throws Exception {
         List<Resume> list = storage.getAllSorted();
         assertEquals(3, list.size());
-        assertEquals(list, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+        assertEquals(list, Arrays.asList(RESUME_1, RESUME_3, RESUME_2));
     }
 
     @Test

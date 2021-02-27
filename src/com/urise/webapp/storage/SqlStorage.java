@@ -7,7 +7,6 @@ import com.urise.webapp.sql.SqlHelper;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -72,13 +71,12 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.execute("SELECT * FROM resume", preparedStatement -> {
+        return sqlHelper.execute("SELECT * FROM resume ORDER BY full_name, uuid", preparedStatement -> {
             List<Resume> resumes = new ArrayList<>();
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 resumes.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
-            Collections.sort(resumes);
             return resumes;
         });
     }
