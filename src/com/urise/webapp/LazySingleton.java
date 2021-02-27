@@ -1,17 +1,17 @@
 package com.urise.webapp;
 
 public class LazySingleton {
-//    double sin;
+    //    double sin;
     private static volatile LazySingleton INSTANCE;
 
     private LazySingleton() {
     }
 
-    private static class LazySingletonHolder{
-        private static final LazySingleton INSTANCE= new LazySingleton();
+    private static class LazySingletonHolder {
+        private static final LazySingleton INSTANCE = new LazySingleton();
     }
 
-    public static LazySingleton getInstance(){
+    public static LazySingleton getInstance() {
         return LazySingletonHolder.INSTANCE;
     }
 //    public static LazySingleton getInstance() {

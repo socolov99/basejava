@@ -20,7 +20,8 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save fullName | delete uuid | get uuid | update uuid fullName | clear | exit): ");
+            System.out.print("Введите одну из команд - " +
+                    "(list | save fullName | delete uuid | get uuid | update uuid fullName | clear | exit): ");
             String[] operators = reader.readLine().trim().toLowerCase().split(" ");
             if (operators.length < 1 || operators.length > 3) {
                 System.out.println("Неверная команда.");

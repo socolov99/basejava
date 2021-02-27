@@ -133,7 +133,8 @@ public class Organization implements Serializable {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Experience that = (Experience) o;
-            return experience.equals(that.experience) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && Objects.equals(description, that.description);
+            return experience.equals(that.experience) && startDate.equals(that.startDate) &&
+                    endDate.equals(that.endDate) && Objects.equals(description, that.description);
         }
 
         @Override

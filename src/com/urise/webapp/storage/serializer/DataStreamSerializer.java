@@ -29,7 +29,8 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(sectionType.name());
                 switch (sectionType) {
                     case OBJECTIVE, PERSONAL -> dos.writeUTF(((SingleLineSection) section).getSingleLine());
-                    case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(dos, ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
+                    case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(dos,
+                            ((BulletedListSection) section).getBulletedList(), dos::writeUTF);
                     case EDUCATION, EXPERIENCE -> writeWithException(dos, ((OrganizationListSection) section).getOrganizationList(), organization -> {
                         dos.writeUTF(organization.getName());
                         String url = organization.getHomePage().getUrl();

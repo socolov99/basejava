@@ -32,7 +32,8 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Can not create Path " + path.getFileName().toString(), path.getFileName().toAbsolutePath().toString(), e);
+            throw new StorageException("Can not create Path "
+                    + path.getFileName().toString(), path.getFileName().toAbsolutePath().toString(), e);
         }
         doUpdate(r, path);
     }
