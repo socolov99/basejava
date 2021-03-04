@@ -102,7 +102,7 @@ public class ResumeTestData {
         sections.put(SectionType.EXPERIENCE, experienceData);
         sections.put(SectionType.EDUCATION, educationData);
 
-//        resume.setContacts(contacts);
+        resume.setContacts(contacts);
 //        resume.setSections(sections);
 
         return resume;
