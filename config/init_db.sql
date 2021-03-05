@@ -17,4 +17,6 @@ create table if not exists contact
     references resume
     on update restrict on delete cascade
     );
+CREATE UNIQUE INDEX contact_uuid_type_index
+    ON contact (resume_uuid, type);
 

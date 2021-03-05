@@ -28,13 +28,10 @@ public class SqlHelper {
              PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) {
             return sqlStatement.execute(preparedStatement);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(e);
-            } else {
-                throw new StorageException(e);
-            }
+            throw analyzeSqlException(e);
         }
     }
+
 
     public <T> T transactionalExecute(SqlTransaction<T> executor) {
         try (Connection conn = connectionFactory.getConnection()) {
@@ -45,14 +42,18 @@ public class SqlHelper {
                 return res;
             } catch (SQLException e) {
                 conn.rollback();
-                if (e.getSQLState().equals("23505")) {
-                    throw new ExistStorageException(e);
-                } else {
-                    throw new StorageException(e);
-                }
+                throw analyzeSqlException(e);
             }
         } catch (SQLException e) {
             throw new StorageException(e);
+        }
+    }
+
+    private StorageException analyzeSqlException(SQLException e) {
+        if (e.getSQLState().equals("23505")) {
+            return new ExistStorageException(e);
+        } else {
+            return new StorageException(e);
         }
     }
 
