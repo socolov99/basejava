@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.sql.SqlHelper;
+import com.urise.webapp.util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
@@ -10,7 +11,7 @@ import java.util.*;
 public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
 
-    public SqlStorage(String dbUrl, String dbUser, String dbPassword)  {
+    public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -33,8 +34,8 @@ public class SqlStorage implements Storage {
                         ps.setString(2, resume.getFullName());
                         ps.execute();
                     }
-                    addContactsToContactTable(resume, connection);
-                    addSectionsToSectionTable(resume, connection);
+                    insertContactsToContactTable(resume, connection);
+                    insertSectionsToSectionTable(resume, connection);
                     return null;
                 }
         );
@@ -64,8 +65,8 @@ public class SqlStorage implements Storage {
                 ps.execute();
             }
 
-            addContactsToContactTable(resume, connection);
-            addSectionsToSectionTable(resume, connection);
+            insertContactsToContactTable(resume, connection);
+            insertSectionsToSectionTable(resume, connection);
             return null;
         });
     }
@@ -162,18 +163,12 @@ public class SqlStorage implements Storage {
     private void addSectionToResume(ResultSet rs, Resume resume) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
-            SectionType sectionType = SectionType.valueOf(rs.getString("type"));
-            if (sectionType == SectionType.OBJECTIVE || sectionType == SectionType.PERSONAL) {
-                resume.addSection(sectionType, new SingleLineSection(value));
-            } else if (sectionType == SectionType.ACHIEVEMENT || sectionType == SectionType.QUALIFICATIONS) {
-                String[] list = value.split("\n");
-                resume.addSection(sectionType, new BulletedListSection(list));
-            }
-            //TODO OrganizationListSection
+            SectionType type = SectionType.valueOf(rs.getString("type"));
+            resume.addSection(type, JsonParser.read(value, AbstractSection.class));
         }
     }
 
-    private void addContactsToContactTable(Resume resume, Connection connection) throws SQLException {
+    private void insertContactsToContactTable(Resume resume, Connection connection) throws SQLException {
         Map<ContactType, String> contacts = resume.getContacts();
         if (!contacts.isEmpty()) {
             try (PreparedStatement ps = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
@@ -188,19 +183,15 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void addSectionsToSectionTable(Resume resume, Connection connection) throws SQLException {
+    private void insertSectionsToSectionTable(Resume resume, Connection connection) throws SQLException {
         Map<SectionType, AbstractSection> sections = resume.getSections();
         if (!sections.isEmpty()) {
             try (PreparedStatement ps = connection.prepareStatement("INSERT INTO section (resume_uuid, type, value) VALUES (?,?,?)")) {
                 for (Map.Entry<SectionType, AbstractSection> e : sections.entrySet()) {
                     ps.setString(1, resume.getUuid());
                     ps.setString(2, e.getKey().name());
-                    if (e.getKey() == SectionType.OBJECTIVE || e.getKey() == SectionType.PERSONAL) {
-                        ps.setString(3, String.valueOf(e.getValue()));
-                    } else if (e.getKey() == SectionType.ACHIEVEMENT || e.getKey() == SectionType.QUALIFICATIONS) {
-                        ps.setString(3, String.join("\n", ((BulletedListSection) e.getValue()).getBulletedList()));
-                    }
-                    //TODO OrganizationListSection
+                    AbstractSection section = e.getValue();
+                    ps.setString(3, JsonParser.write(section, AbstractSection.class));
                     ps.addBatch();
                 }
                 ps.executeBatch();

@@ -7,7 +7,12 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
-public class ResumeTestData {
+public class TestData {
+    public static final Resume RESUME_1=createResume(UUID.randomUUID().toString(),"Alex");
+    public static final Resume RESUME_2=createResume(UUID.randomUUID().toString(),"Joe");
+    public static final Resume RESUME_3=createResume(UUID.randomUUID().toString(),"Bale");
+    public static final Resume RESUME_4=createResume(UUID.randomUUID().toString(),"Violetta");
+
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
@@ -106,29 +111,5 @@ public class ResumeTestData {
         resume.setSections(sections);
 
         return resume;
-    }
-
-    public static void main(String[] args) {
-        Resume resume = createResume("uuid1", "Grigory Kislin");
-
-        System.out.println(resume.getFullName());
-        System.out.println();
-        System.out.println(ContactType.PHONE + ": " + resume.getContact(ContactType.PHONE));
-        System.out.println(ContactType.SKYPE + ": " + resume.getContact(ContactType.SKYPE));
-        System.out.println(ContactType.MAIL + ": " + resume.getContact(ContactType.MAIL));
-        System.out.println("————————————————————————————————————————————————————————————————————————");
-        System.out.println(SectionType.OBJECTIVE.getTitle());
-        System.out.println(resume.getSection(SectionType.OBJECTIVE) + "\n");
-        System.out.println(SectionType.PERSONAL.getTitle());
-        System.out.println(resume.getSection(SectionType.PERSONAL) + "\n");
-        System.out.println(SectionType.ACHIEVEMENT.getTitle());
-        System.out.println(resume.getSection(SectionType.ACHIEVEMENT) + "\n");
-        System.out.println(SectionType.QUALIFICATIONS.getTitle());
-        System.out.println(resume.getSection(SectionType.QUALIFICATIONS) + "\n");
-        System.out.println(SectionType.EXPERIENCE.getTitle());
-        System.out.println(resume.getSection(SectionType.EXPERIENCE) + "\n");
-        System.out.println(SectionType.EDUCATION.getTitle());
-        System.out.println(resume.getSection(SectionType.EDUCATION) + "\n");
-
     }
 }

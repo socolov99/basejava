@@ -10,9 +10,8 @@ import org.junit.Test;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
-import static com.urise.webapp.ResumeTestData.createResume;
+import static com.urise.webapp.TestData.*;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
@@ -20,22 +19,10 @@ public abstract class AbstractStorageTest {
 
     protected Storage storage;
 
-    private static final String UUID_1 = UUID.randomUUID().toString();
-    private static final String UUID_2 = UUID.randomUUID().toString();
-    private static final String UUID_3 = UUID.randomUUID().toString();
-    private static final String UUID_4 = UUID.randomUUID().toString();
-
-    private static final Resume RESUME_1;
-    private static final Resume RESUME_2;
-    private static final Resume RESUME_3;
-    private static final Resume RESUME_4;
-
-    static {
-        RESUME_1 = createResume(UUID_1, "Asap");
-        RESUME_2 = createResume(UUID_2, "John");
-        RESUME_3 = createResume(UUID_3, "Jack");
-        RESUME_4 = createResume(UUID_4, "Jack");
-    }
+    private static final String UUID_1 = RESUME_1.getUuid();
+    private static final String UUID_2 = RESUME_2.getUuid();
+    private static final String UUID_3 = RESUME_3.getUuid();
+    private static final String UUID_4 = RESUME_4.getUuid();
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
