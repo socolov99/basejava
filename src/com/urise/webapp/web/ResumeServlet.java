@@ -13,24 +13,6 @@ import java.io.IOException;
 
 public class ResumeServlet extends javax.servlet.http.HttpServlet {
     private Storage storage;
-    private static final String htmlStringFirst = "" +
-            "<html>\n" +
-            "<head>\n" +
-            "    <title>Resume table</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<table border='3' cellpadding='5'>\n" +
-            "    <tr>\n" +
-            "        <th>UUID</th>\n" +
-            "        <th>Имя</th>\n" +
-            "        <th>Телефон</th>\n" +
-            "        <th>Skype</th>\n" +
-            "        <th>Mail</th>\n" +
-            "    </tr>\n";
-    private static final String htmlStringLast = "" +
-            "</table>\n" +
-            "</body>\n" +
-            "</html>\n";
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -40,24 +22,47 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws javax.servlet.ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+        Resume resume = storage.get(uuid);
+        resume.setFullName(fullName);
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                resume.addContact(type, value);
+            } else {
+                resume.getContacts().remove(type);
+            }
+        }
+        storage.update(resume);
+        response.sendRedirect("resume");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws javax.servlet.ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
-        response.getWriter().write(htmlStringFirst);
-        for (Resume resume : storage.getAllSorted()) {
-            response.getWriter().write("<tr>\n" +
-                    "<td>" + resume.getUuid() + "</td>\n" +
-                    "<td>" + resume.getFullName() + "</td>\n" +
-                    "<td>" + resume.getContact(ContactType.PHONE) + "</td>\n" +
-                    "<td>" + resume.getContact(ContactType.SKYPE) + "</td>\n" +
-                    "<td>" + resume.getContact(ContactType.MAIL) + "</td>\n" +
-                    "</tr>\n");
+        String uuid = request.getParameter("uuid");
+        String action = request.getParameter("action");
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
         }
-        response.getWriter().write(htmlStringLast);
+        Resume resume;
+        switch (action) {
+            case "delete":
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
+            case "view":
+            case "edit":
+                resume = storage.get(uuid);
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
+        }
+        request.setAttribute("resume", resume);
+        request.getRequestDispatcher(
+                ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
+        ).forward(request, response);
     }
 }
