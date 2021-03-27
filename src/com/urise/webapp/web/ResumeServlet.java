@@ -53,6 +53,9 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
+            case "add":
+                resume = new Resume();
+                break;
             case "view":
             case "edit":
                 resume = storage.get(uuid);
@@ -64,5 +67,7 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
+
+
     }
 }

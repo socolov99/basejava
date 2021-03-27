@@ -104,8 +104,8 @@ public class TestData {
         sections.put(SectionType.PERSONAL, personalData);
         sections.put(SectionType.ACHIEVEMENT, achievementData);
         sections.put(SectionType.QUALIFICATIONS, qualificationData);
-//        sections.put(SectionType.EXPERIENCE, experienceData);
-//        sections.put(SectionType.EDUCATION, educationData);
+        sections.put(SectionType.EXPERIENCE, experienceData);
+        sections.put(SectionType.EDUCATION, educationData);
 
         resume.setContacts(contacts);
         resume.setSections(sections);
