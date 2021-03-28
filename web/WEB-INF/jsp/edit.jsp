@@ -1,5 +1,6 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
 <%@ page import="com.urise.webapp.model.SectionType" %>
+<%@ page import="com.urise.webapp.model.BulletedListSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -27,11 +28,18 @@
         </c:forEach>
         <h3>Секции:</h3>
         <c:forEach var="type" items="<%=SectionType.values()%>">
-        <c:set var="section" value="${resume.getSection(type)}"/>
+            <c:set var="section" value="${resume.getSection(type)}"/>
             <jsp:useBean id="section" type="com.urise.webapp.model.AbstractSection"/>
             <h3>${type.title}</h3>
             <c:if test="${type=='OBJECTIVE'||type=='PERSONAL'}">
-                <input type='text' name='${type}' size=50 value='<%=section%>'>
+                <textarea name='${type}' cols="120"><%=section%></textarea>
+            </c:if>
+            <c:if test="${type=='ACHIEVEMENT'||type=='QUALIFICATIONS'}">
+                <textarea name='${type}' cols="120"
+                          rows="12"><%=String.join("\n", ((BulletedListSection) section).getBulletedList())%></textarea>
+            </c:if>
+            <c:if test="${type=='EXPERIENCE'||type=='EDUCATION'}">
+                <textarea name='${type}' cols="120" rows="12">TODO</textarea>
             </c:if>
         </c:forEach>
 

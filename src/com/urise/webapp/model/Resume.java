@@ -113,4 +113,15 @@ public class Resume implements Comparable<Resume>, Serializable {
         int compareResult = fullName.compareTo(o.fullName);
         return compareResult != 0 ? compareResult : uuid.compareTo(o.uuid);
     }
+
+    public static Resume emptyResume() {
+        Resume resume = new Resume();
+        resume.addSection(SectionType.OBJECTIVE, new SingleLineSection(""));
+        resume.addSection(SectionType.PERSONAL, new SingleLineSection(""));
+        resume.addSection(SectionType.QUALIFICATIONS, new BulletedListSection(""));
+        resume.addSection(SectionType.ACHIEVEMENT, new BulletedListSection(""));
+        resume.addSection(SectionType.EDUCATION, new OrganizationListSection(new Organization("", "", null)));
+        resume.addSection(SectionType.EXPERIENCE, new OrganizationListSection(new Organization("", "", null)));
+        return resume;
+    }
 }
