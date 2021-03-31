@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends javax.servlet.http.HttpServlet {
     private Storage storage;
@@ -45,7 +47,13 @@ public class ResumeServlet extends javax.servlet.http.HttpServlet {
             if (value != null && value.trim().length() != 0) {
                 switch (type) {
                     case OBJECTIVE, PERSONAL -> resume.addSection(type, new SingleLineSection(value));
-                    case QUALIFICATIONS, ACHIEVEMENT -> resume.addSection(type, new BulletedListSection(value.split("\\n")));
+                    case QUALIFICATIONS, ACHIEVEMENT -> {
+                        resume.addSection(type, new BulletedListSection(Arrays.stream(value.split("\\n"))
+                                        .filter((s) -> s.trim().length() > 0)
+                                        .collect(Collectors.toList())
+                                )
+                        );
+                    }
                 }
             } else {
                 resume.getSections().remove(type);
