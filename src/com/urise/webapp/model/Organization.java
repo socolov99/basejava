@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,11 +22,17 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
-    public Organization(String name, String url, List<Experience> experienceList) {
+    public Organization(String name, String url, Experience... experienceList) {
         Objects.requireNonNull(name, "name must not be null");
         this.name = name;
         this.homePage = new Link(name, url);
-        this.experienceList = experienceList;
+        this.experienceList = Arrays.asList(experienceList);
+    }
+
+    public Organization(Link homePage, List<Experience> experiences) {
+        this.homePage = homePage;
+        this.name = homePage.getName();
+        this.experienceList = experiences;
     }
 
     public String getName() {
@@ -41,7 +48,7 @@ public class Organization implements Serializable {
     }
 
     public void setHomePage(String url) {
-        this.homePage = new Link(name,url);
+        this.homePage = new Link(name, url);
     }
 
     public List<Experience> getExperienceList() {

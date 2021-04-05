@@ -1,6 +1,8 @@
 <%@ page import="com.urise.webapp.model.ContactType" %>
 <%@ page import="com.urise.webapp.model.SectionType" %>
 <%@ page import="com.urise.webapp.model.BulletedListSection" %>
+<%@ page import="com.urise.webapp.model.OrganizationListSection" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -39,7 +41,47 @@
                           rows="12"><%=String.join("\n", ((BulletedListSection) section).getBulletedList())%></textarea>
             </c:if>
             <c:if test="${type=='EXPERIENCE'||type=='EDUCATION'}">
-                <textarea name='${type}' cols="120" rows="12">TODO</textarea>
+                <c:forEach var="org" items="<%=((OrganizationListSection) section).getOrganizationList()%>"
+                           varStatus="experienceNumber">
+                    <dl>
+                        <dt>Название организации:</dt>
+                        <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>Сайт организации:</dt>
+                        <dd><input type="text" name='${type}url' size=100 value="${org.homePage.url}"></dd>
+                        </dd>
+                    </dl>
+                    <br>
+                    <div style="margin-left: 30px">
+                        <c:forEach var="pos" items="${org.experienceList}">
+                            <jsp:useBean id="pos" type="com.urise.webapp.model.Organization.Experience"/>
+                            <dl>
+                                <dt>Начальная дата:</dt>
+                                <dd>
+                                    <input type="text" name="${type}${experienceNumber.index}startDate" size=10
+                                           value="<%=DateUtil.format(pos.getStartDate())%>" placeholder="MM/yyyy">
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>Конечная дата:</dt>
+                                <dd>
+                                    <input type="text" name="${type}${experienceNumber.index}endDate" size=10
+                                           value="<%=DateUtil.format(pos.getEndDate())%>" placeholder="MM/yyyy">
+                            </dl>
+                            <dl>
+                                <dt>Должность:</dt>
+                                <dd><input type="text" name='${type}${experienceNumber.index}title' size=75
+                                           value="${pos.experience}">
+                            </dl>
+                            <dl>
+                                <dt>Описание:</dt>
+                                <dd><textarea name="${type}${experienceNumber.index}description" rows=5
+                                              cols=75>${pos.description}</textarea></dd>
+                            </dl>
+                        </c:forEach>
+                    </div>
+                </c:forEach>
             </c:if>
         </c:forEach>
 

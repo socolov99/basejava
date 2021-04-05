@@ -120,8 +120,8 @@ public class Resume implements Comparable<Resume>, Serializable {
         resume.addSection(SectionType.PERSONAL, new SingleLineSection(""));
         resume.addSection(SectionType.QUALIFICATIONS, new BulletedListSection(""));
         resume.addSection(SectionType.ACHIEVEMENT, new BulletedListSection(""));
-        resume.addSection(SectionType.EDUCATION, new OrganizationListSection(new Organization("", "", null)));
-        resume.addSection(SectionType.EXPERIENCE, new OrganizationListSection(new Organization("", "", null)));
+        resume.addSection(SectionType.EDUCATION, new OrganizationListSection(new Organization("", "", new Organization.Experience())));
+        resume.addSection(SectionType.EXPERIENCE, new OrganizationListSection(new Organization("", "", new Organization.Experience())));
         return resume;
     }
 }

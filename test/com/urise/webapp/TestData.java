@@ -8,10 +8,10 @@ import java.time.Month;
 import java.util.*;
 
 public class TestData {
-    public static final Resume RESUME_1=createResume(UUID.randomUUID().toString(),"Alex");
-    public static final Resume RESUME_2=createResume(UUID.randomUUID().toString(),"Joe");
-    public static final Resume RESUME_3=createResume(UUID.randomUUID().toString(),"Bale");
-    public static final Resume RESUME_4=createResume(UUID.randomUUID().toString(),"Violetta");
+    public static final Resume RESUME_1 = createResume(UUID.randomUUID().toString(), "Alex");
+    public static final Resume RESUME_2 = createResume(UUID.randomUUID().toString(), "Joe");
+    public static final Resume RESUME_3 = createResume(UUID.randomUUID().toString(), "Bale");
+    public static final Resume RESUME_4 = createResume(UUID.randomUUID().toString(), "Violetta");
 
     public static Resume createResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
@@ -58,16 +58,13 @@ public class TestData {
         LocalDate start_work1_experience1 = DateUtil.of(2013, Month.OCTOBER);
         LocalDate end_work1_experience1 = LocalDate.now();
         Organization.Experience work1_experience1 = new Organization.Experience("Автор проекта.", start_work1_experience1, end_work1_experience1, null);
-        List<Organization.Experience> work1_experiences = new ArrayList<>();
-        work1_experiences.add(work1_experience1);
-        Organization work1 = new Organization("Java Online Projects", null, work1_experiences);
+
+        Organization work1 = new Organization("Java Online Projects", null, work1_experience1);
 
         LocalDate start_work2_experience1 = DateUtil.of(2012, Month.APRIL);
         LocalDate end_work2_experience1 = DateUtil.of(2014, Month.OCTOBER);
         Organization.Experience work2_experience1 = new Organization.Experience("Java архитектор", start_work2_experience1, end_work2_experience1, "Организация процесса разработки системы ERP для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера документов MS Office. Maven + plugin development, Ant, Apache Commons, Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python");
-        List<Organization.Experience> work2_experiences = new ArrayList<>();
-        work2_experiences.add(work2_experience1);
-        Organization work2 = new Organization("RIT Center", "url1924240", work2_experiences);
+        Organization work2 = new Organization("RIT Center", "url1924240", work2_experience1);
 
         workOrganizations.add(work1);
         workOrganizations.add(work2);
@@ -79,9 +76,7 @@ public class TestData {
         LocalDate start_education1_experience1 = DateUtil.of(2013, Month.MARCH);
         LocalDate end_education1_experience1 = DateUtil.of(2013, Month.MAY);
         Organization.Experience education1_experience1 = new Organization.Experience("\"Functional Programming Principles in Scala\" by Martin Odersky\n", start_education1_experience1, end_education1_experience1, "");
-        List<Organization.Experience> education1_experiences = new ArrayList<>();
-        education1_experiences.add(education1_experience1);
-        Organization education1 = new Organization("Coursera", "url2358", education1_experiences);
+        Organization education1 = new Organization("Coursera", "url2358", education1_experience1);
 
         LocalDate start_education2_experience1 = DateUtil.of(1993, Month.SEPTEMBER);
         LocalDate end_education2_experience1 = DateUtil.of(1996, Month.JULY);
@@ -89,9 +84,7 @@ public class TestData {
         LocalDate start_education2_experience2 = DateUtil.of(1987, Month.SEPTEMBER);
         LocalDate end_education2_experience2 = DateUtil.of(1993, Month.JULY);
         Organization.Experience education2_experience2 = new Organization.Experience("Инженер (программист Fortran, C)", start_education2_experience2, end_education2_experience2, "");
-        List<Organization.Experience> education2_experiences = new ArrayList<>();
-        education2_experiences.add(education2_experience1);
-        education2_experiences.add(education2_experience2);
+        Organization.Experience[] education2_experiences = {education2_experience1, education2_experience2};
         Organization education2 = new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", "url232410", education2_experiences);
 
         educationalOrganizations.add(education1);

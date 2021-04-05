@@ -84,7 +84,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                     return new Organization.Experience(experienceName, startDate, endDate, description.equals(" ") ? null : description);
                                 }
                         );
-                        return new Organization(name, url.equals(" ") ? null : url, experiences);
+                        return new Organization(new Link(name, url.equals(" ") ? null : url), experiences);
                     })));
                     default -> throw new StorageException("Not existed sectionType");
                 }
